@@ -127,7 +127,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Terrain.cpp" />
+    <ClCompile Include="camera.cpp" />
+    <ClCompile Include="FBM.cpp" />
+    <ClCompile Include="General_utility.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Shadow.cpp" />
+    <ClCompile Include="VAO.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="camera.h" />
+    <ClInclude Include="FBM.h" />
+    <ClInclude Include="General_utility.h" />
+    <ClInclude Include="Math.h" />
+    <ClInclude Include="Noise.h" />
+    <ClInclude Include="Shader.h" />
+    <ClInclude Include="VAO.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
