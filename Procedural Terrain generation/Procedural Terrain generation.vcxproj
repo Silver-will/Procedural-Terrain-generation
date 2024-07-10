@@ -18,6 +18,42 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\camera.cpp" />
+    <ClCompile Include="Source\FBM.cpp" />
+    <ClCompile Include="Source\General_utility.cpp" />
+    <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\Shader.cpp" />
+    <ClCompile Include="Source\Shadow.cpp" />
+    <ClCompile Include="Source\Texture.cpp" />
+    <ClCompile Include="Source\UI.cpp" />
+    <ClCompile Include="Source\VAO.cpp" />
+    <ClCompile Include="Terrain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\camera.h" />
+    <ClInclude Include="Source\FBM.h" />
+    <ClInclude Include="Source\General_utility.h" />
+    <ClInclude Include="Source\Math.h" />
+    <ClInclude Include="Source\Noise.h" />
+    <ClInclude Include="Source\Shader.h" />
+    <ClInclude Include="Source\Shadow.h" />
+    <ClInclude Include="Source\Texture.h" />
+    <ClInclude Include="Source\UI.h" />
+    <ClInclude Include="Source\VAO.h" />
+    <ClInclude Include="Terrain.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\Erosion.comp" />
+    <None Include="Shaders\Shadow.fs" />
+    <None Include="Shaders\Shadow.vs" />
+    <None Include="Shaders\Skybox.fs" />
+    <None Include="Shaders\Skybox.vs" />
+    <None Include="Shaders\Terrain.fs" />
+    <None Include="Shaders\Terrain.tcs" />
+    <None Include="Shaders\Terrain.tes" />
+    <None Include="Shaders\Terrain.vs" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -104,6 +140,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -118,6 +155,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -126,23 +164,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="camera.cpp" />
-    <ClCompile Include="FBM.cpp" />
-    <ClCompile Include="General_utility.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Shadow.cpp" />
-    <ClCompile Include="VAO.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="camera.h" />
-    <ClInclude Include="FBM.h" />
-    <ClInclude Include="General_utility.h" />
-    <ClInclude Include="Math.h" />
-    <ClInclude Include="Noise.h" />
-    <ClInclude Include="Shader.h" />
-    <ClInclude Include="VAO.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

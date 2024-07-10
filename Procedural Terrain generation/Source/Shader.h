@@ -6,8 +6,9 @@
 using std::string_view;
 string loadFromFile(string_view shader);
 struct Shader {
-	Shader(string_view vertexPath, string_view fragmentPath, string_view geometryPath = "");
-	void    checkCompileErrors(GLuint object, string type);
+	Shader(string_view vertexPath, string_view fragmentPath, string_view geometryPath = "", string_view tcsPath = "", string_view tesPath = "");
+    Shader(string_view computePath);
+    void    checkCompileErrors(GLuint object, string type);
 	void    use();
     void    SetFloat(string name, float value, bool useShader = false);
     void    SetInteger(string name, int value, bool useShader = false);
@@ -19,6 +20,8 @@ struct Shader {
     void    SetVector4f(string name, const glm::vec4& value, bool useShader = false);
     void    SetMatrix4(string name, const glm::mat4& matrix, bool useShader = false);
     void    SetMatrix3(string name, const glm::mat3& matrix, bool useShader = false);
+    void AddOptionalShaderStage(GLuint& shaderRef, std::string_view path, int shaderType);
+    std::string CheckShaderType(int shaderType);
 
 	GLuint shad;
 	~Shader();

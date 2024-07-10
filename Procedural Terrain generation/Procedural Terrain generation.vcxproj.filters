@@ -13,48 +13,104 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{e7733801-2050-4e1f-bbe1-4edc0b71b5fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="Source\camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FBM.cpp">
+    <ClCompile Include="Source\FBM.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="camera.cpp">
+    <ClCompile Include="Source\General_utility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="General_utility.cpp">
+    <ClCompile Include="Source\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Shadow.cpp">
+    <ClCompile Include="Source\Shadow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VAO.cpp">
+    <ClCompile Include="Source\Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\VAO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Terrain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FBM.h">
+    <ClInclude Include="Source\camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Noise.h">
+    <ClInclude Include="Source\FBM.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Math.h">
+    <ClInclude Include="Source\General_utility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="camera.h">
+    <ClInclude Include="Source\Math.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="General_utility.h">
+    <ClInclude Include="Source\Noise.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Shader.h">
+    <ClInclude Include="Source\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VAO.h">
+    <ClInclude Include="Source\Shadow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\VAO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Terrain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\Erosion.comp">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\Shadow.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\Shadow.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\Skybox.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\Skybox.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\Terrain.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\Terrain.tcs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\Terrain.tes">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\Terrain.vs">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
