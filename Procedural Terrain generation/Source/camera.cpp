@@ -1,30 +1,21 @@
 #include<glm/gtc/type_ptr.hpp>
 #include "camera.h"
-using namespace glm;
-namespace Camera_values {
-	GLfloat deltaTime{};
-	GLfloat lastFrame{};
-	GLfloat currentFrame{};
-	Camera cam;
-	GLfloat cameraNearPlane{ 0.1f };
-	GLfloat cameraFarPlane{ 500.0f };
-}
 Camera::Camera()
 {
-	upValue = vec3(0.0f, 1.0f, 0.0f);
-	cameraPos = vec3(0.0f,0.0f,3.0f);
-	cameraTarget =vec3(0.0f, 0.0f, -1.0f);
-	Right = normalize(cross(cameraTarget, upValue));
+	upValue = glm::vec3(0.0f, 1.0f, 0.0f);
+	cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+	cameraTarget = glm::vec3(0.0f, 0.0f, -1.0f);
+	Right = glm::normalize(cross(cameraTarget, upValue));
 	view = glm::lookAt(cameraPos, cameraTarget, upValue);
 	zoom = 45.0f;
 }
 
-void Camera::processInput(GLFWwindow* window)
+void Camera::ProcessInput(GLFWwindow* window)
 {
-	Camera_values::currentFrame = glfwGetTime();
-	Camera_values::deltaTime = Camera_values::currentFrame - Camera_values::lastFrame;
-	Camera_values::lastFrame = Camera_values::currentFrame;
-	GLfloat speed = 2.5f * Camera_values::deltaTime;
+	currentFrame = glfwGetTime();
+	deltaTime = currentFrame - lastFrame;
+	lastFrame = currentFrame;
+	GLfloat speed = 2.5f * deltaTime;
 	if (glfwGetKey(window, GLFW_KEY_A) || glfwGetKey(window, GLFW_KEY_LEFT))
 	{
 		cameraPos -= speed * Right;
@@ -43,35 +34,64 @@ void Camera::processInput(GLFWwindow* window)
 	}
 }
 
-void Camera::updateCameraVector()
+void Camera::ProcessOffset(GLfloat xPos, GLfloat yPos)
+{
+	if (fMouse)
+	{
+		fMouse = false;
+		lastX = xPos;
+		lastY = yPos;
+	}
+	else
+	{
+		xOffset = xPos - lastX;
+		yOffset = yPos - lastY;
+		lastX = xPos;
+		lastY = yPos;
+	}
+
+	xOffset *= sensitivity;
+	yOffset *= sensitivity;
+
+	yaw += xOffset;
+	pitch += yOffset;
+
+	cameraTarget.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+	cameraTarget.y = sin(glm::radians(pitch));
+	cameraTarget.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+
+	SetTarget(normalize(cameraTarget));
+}
+
+void Camera::UpdateCameraVector()
 {
 	this->view = glm::lookAt(cameraPos, cameraPos + cameraTarget, upValue);
-	this->Right = glm::normalize(glm::cross(cameraTarget, glm::vec3(0.0f,1.0f,0.0f)));
+	this->Right = glm::normalize(glm::cross(cameraTarget, glm::vec3(0.0f, 1.0f, 0.0f)));
 	this->upValue = glm::normalize(glm::cross(Right, cameraTarget));
 }
 
-void Camera::setTarget(glm::vec3 direction)
+void Camera::SetTarget(glm::vec3 direction)
 {
 	this->cameraTarget = direction;
-	updateCameraVector();
+	UpdateCameraVector();
 }
-glm::mat4 Camera::getView()
+glm::mat4 Camera::GetView()
 {
-	updateCameraVector();
+	UpdateCameraVector();
 	return this->view;
 }
 
-glm::vec3 Camera::getPos()
+glm::vec3 Camera::GetPos()
 {
 	return this->cameraPos;
 }
 
-glm::vec3 Camera::getTarget()
+glm::vec3 Camera::GetTarget()
 {
 	return this->cameraTarget;
 }
 
-glm::vec3 Camera::getDir()
+glm::vec3 Camera::GetDir()
 {
 	return this->cameraTarget;
 }

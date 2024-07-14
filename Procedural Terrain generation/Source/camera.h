@@ -6,13 +6,14 @@
 struct Camera
 {
 	Camera();
-	void processInput(GLFWwindow* window);
-	void setTarget(glm::vec3 direction);
-	void updateCameraVector();
-	glm::mat4 getView();
-	glm::vec3 getPos();
-	glm::vec3 getTarget();
-	glm::vec3 getDir();
+	void ProcessInput(GLFWwindow* window);
+	void ProcessOffset(GLfloat xPos, GLfloat yPos);
+	void SetTarget(glm::vec3 direction);
+	void UpdateCameraVector();
+	glm::mat4 GetView();
+	glm::vec3 GetPos();
+	glm::vec3 GetTarget();
+	glm::vec3 GetDir();
 	GLfloat zoom;
 
 private:
@@ -21,14 +22,15 @@ private:
 	glm::vec3 cameraTarget;
 	glm::mat4 view;
 	glm::vec3 Right;
-};
-namespace Camera_values {
-	extern GLfloat deltaTime;
-	extern GLfloat lastFrame;
-	extern GLfloat currentFrame;
-	extern Camera cam;
-	extern GLfloat cameraNearPlane;
-	extern GLfloat cameraFarPlane;
-}
 
+
+	//Camera Values
+	GLfloat deltaTime{};
+	GLfloat lastFrame{};
+	GLfloat currentFrame{};
+	GLfloat cameraNearPlane{ 0.1f };
+	GLfloat cameraFarPlane{ 500.0f };
+	GLfloat yaw = -90.0f, pitch = 0.0f, sensitivity = 0.1f, lastX{}, lastY{}, xOffset{}, yOffset{};
+	bool fMouse = true;
+};
 #endif

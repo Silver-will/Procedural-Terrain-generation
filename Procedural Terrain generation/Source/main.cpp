@@ -61,6 +61,11 @@ int main()
 	Shader erosionShader("../Shaders/Erosion.comp");
 	Shader terrainShader("../Shaders/Terrain.vs", "../Shaders/Terrain.fs", "", "../Shaders/Terrain.tcs", "../Shaders/Terrain.tes");
 	Shader SkyboxShader("../Shaders/Skybox.vs", "../Shaders/Skybox.fs");
+
+	while (!glfwWindowShouldClose(window))
+	{
+
+	}
 }
 
 void FramebufferSizeCallback(GLFWwindow* window, int width, int height)

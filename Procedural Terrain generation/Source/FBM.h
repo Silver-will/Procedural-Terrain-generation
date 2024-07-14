@@ -3,13 +3,13 @@
 #include<glm/glm.hpp>
 #include<vector>
 #include "Noise.h"
-
+#include "Texture.h"
 //Serves as both a perlin noise implementation and performs Domain warping automatically
 struct FBM
 {
-    int noisetexture;
-	NoiseParams noise1;
-	NoiseParams noise2;
+    Texture noisetexture;
+	NoiseParams noise1,noise1_prev;
+	NoiseParams noise2,noise2_prev;
 	std::vector<float>noiseMapValues;
 
     FBM(int width, int height);
@@ -19,8 +19,9 @@ struct FBM
     float Noise2(float x, float y);
     std::vector<float>GenerateNoiseMap();
     void CreateNoiseTexture();
-    float Pattern(float x, float y, int& octaves, glm::vec2& octaveOffsets, float& scale, float& persistence, float& lacunarity);
-    float Fbm(float x, float y, int& octaves, glm::vec2& octaveOffsets, float& scale, float persistence, float lacunarity);
+    void UpdateNoiseTexture();
+    float Pattern(float x, float y, std::vector<glm::vec2>& octaveOffsets);
+    float Fbm(float x, float y, int& octaves, std::vector<glm::vec2>& octaveOffsets, float& scale, float persistence, float lacunarity);
 
 private:
     int noiseWidth;

@@ -3,21 +3,21 @@
 struct NoiseParams
 {
     NoiseParams(int octaves, float scale, float persistence, float lacunarity) :
-        _octaves{ octaves }, _scale{ scale }, _persistence{ persistence }, _lacunarity{ lacunarity }
+        octaves{ octaves }, scale{ scale }, persistence{ persistence }, lacunarity{ lacunarity }
     {
     }
     NoiseParams() {};
-    int    _octaves = 3;
+    int    octaves = 3;
     int seed = 2;
-    float  _scale = 19.1f;
-    float  _persistence = 2.9f;
-    float  _lacunarity = 0.45f;
+    float  scale = 19.1f;
+    float  persistence = 2.9f;
+    float  lacunarity = 0.45f;
     glm::vec2 _offset = glm::vec2(50.0f, 27.0f);
 
     friend bool operator==(NoiseParams& noise1, NoiseParams& noise2)
     {
-        return noise1._octaves == noise2._octaves && noise1._scale == noise2._scale && noise1._persistence == noise2._persistence &&
-            noise1._lacunarity == noise2._lacunarity && noise1._offset == noise2._offset;
+        return noise1.octaves == noise2.octaves && noise1.scale == noise2.scale && noise1.persistence == noise2.persistence &&
+            noise1.lacunarity == noise2.lacunarity && noise1._offset == noise2._offset;
     }
 
     friend bool operator!=(NoiseParams& noise1, NoiseParams& noise2) { return !(noise1 == noise2); }

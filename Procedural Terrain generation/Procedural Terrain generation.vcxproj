@@ -25,10 +25,10 @@
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Shader.cpp" />
     <ClCompile Include="Source\Shadow.cpp" />
+    <ClCompile Include="Source\Terrain.cpp" />
     <ClCompile Include="Source\Texture.cpp" />
     <ClCompile Include="Source\UI.cpp" />
     <ClCompile Include="Source\VAO.cpp" />
-    <ClCompile Include="Terrain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\camera.h" />
@@ -38,10 +38,10 @@
     <ClInclude Include="Source\Noise.h" />
     <ClInclude Include="Source\Shader.h" />
     <ClInclude Include="Source\Shadow.h" />
+    <ClInclude Include="Source\Terrain.h" />
     <ClInclude Include="Source\Texture.h" />
     <ClInclude Include="Source\UI.h" />
     <ClInclude Include="Source\VAO.h" />
-    <ClInclude Include="Terrain.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Erosion.comp" />

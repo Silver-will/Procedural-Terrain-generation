@@ -5,28 +5,20 @@
 #include<GLFW/glfw3.h>
 #include<string>
 #include"General_utility.h"
-enum  WrapM
-{
-	REPEAT,
-	MREPEAT,
-	CLAMP_EDGE,
-	CLAMP_BORDER
-};
-enum Format
-{
-	R,
-	RG,
-	RGB,
-	RGBA
-};
+
 struct Texture
 {
-	//constructor taking a path, colour format and texture wrapping method to generate a texture object
-	Texture(string texturePath, Format col, WrapM w);
-	void setInt(GLint num);
+	Texture() {};
+	//Load Texture from image file
+	Texture(string texturePath, GLenum wrapping, GLenum sampleFilter);
+	//Create empty texture in memory
+	Texture(int width,int height,void* data, GLenum format, GLenum wrapping, GLenum sampleFilter);
+	//Update texture data
+	void CreateTexture(int width, int height, void* data, GLenum format, GLenum wrapping, GLenum sampleFilter);
+	void UpdateTexture(void* data);
 	GLuint TexID;
-	~Texture();
 	GLuint format;
-	GLuint wrapping;
+	int width;
+	int height;
 };
 #endif
