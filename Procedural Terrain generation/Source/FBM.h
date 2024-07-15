@@ -4,6 +4,7 @@
 #include<vector>
 #include "Noise.h"
 #include "Texture.h"
+
 //Serves as both a perlin noise implementation and performs Domain warping automatically
 struct FBM
 {

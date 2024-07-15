@@ -4,14 +4,16 @@
 #include<glm/glm.hpp>
 #include "UI.h"
 #include "Shader.h"
+#include "Camera.h"
 
 void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int modifiers);
-void PouseCallback(GLFWwindow* window, double xpos, double ypos);
-void PcrollCallback(GLFWwindow* window, double xoffset, double yoffset);
+void CursorPosCallback(GLFWwindow* window, double xpos, double ypos);
+void ScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
 void ProcessInput(GLFWwindow* window);
 
 float heightScale = 10.0f;
+Camera cam;
 
 // Light Values
 glm::vec3 lightDirection(-6.0f, 3.5f, -1.0f);
@@ -49,7 +51,7 @@ int main()
 	bool showWindow = true;
 
 	glfwSetFramebufferSizeCallback(window, FramebufferSizeCallback);
-	//glfwSetMouseButtonCallback(window, MouseButtonCallback);
+	glfwSetCursorPosCallback(window, CursorPosCallback);
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
@@ -64,11 +66,52 @@ int main()
 
 	while (!glfwWindowShouldClose(window))
 	{
+		ProcessInput(window);
 
+		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		glm::mat4 projection = glm::perspective(glm::radians(cam.zoom), (float)WIDTH / (float)HEIGHT, 0.1f, 100000.0f);
+		glm::mat4 view = cam.GetView();
+		terrainShader.SetMatrix4("projection", projection);
+		terrainShader.SetMatrix4("view", view);
+
+		// world transformation
+		glm::mat4 model = glm::mat4(1.0f);
+		terrainShader.SetMatrix4("model", model);
+
+		glfwSwapBuffers(window);
+		glfwPollEvents();
 	}
+}
+
+
+void ProcessInput(GLFWwindow* window)
+{
+	cam.ProcessInput(window);
 }
 
 void FramebufferSizeCallback(GLFWwindow* window, int width, int height)
 {
     glViewport(0, 0, width, height);
+}
+
+void CursorPosCallback(GLFWwindow* window, double xpos, double ypos)
+{
+	cam.ProcessOffset(xpos, ypos);
+}
+
+void DrawSkyBox()
+{
+
+}
+
+void ShadowPass()
+{
+
+}
+
+void DrawTerrain()
+{
+
 }

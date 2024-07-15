@@ -1,5 +1,5 @@
 #include<glm/gtc/type_ptr.hpp>
-#include "camera.h"
+#include "Camera.h"
 Camera::Camera()
 {
 	upValue = glm::vec3(0.0f, 1.0f, 0.0f);

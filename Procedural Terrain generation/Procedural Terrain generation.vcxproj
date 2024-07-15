@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\camera.cpp" />
+    <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\FBM.cpp" />
     <ClCompile Include="Source\General_utility.cpp" />
     <ClCompile Include="Source\main.cpp" />
@@ -31,7 +31,7 @@
     <ClCompile Include="Source\VAO.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\camera.h" />
+    <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\FBM.h" />
     <ClInclude Include="Source\General_utility.h" />
     <ClInclude Include="Source\Math.h" />

@@ -1,9 +1,8 @@
 #include "Shadow.h"
 #include "camera.h"
 #include<iostream>
-using Camera_values::cam;
-using Shadow_values::shadowCascadeLevels;
-std::vector<glm::vec4> getFrustrumCornersWorldSpace(const glm::mat4& projView)
+
+/*std::vector<glm::vec4> getFrustrumCornersWorldSpace(const glm::mat4& projView)
 {
 	const auto inv = glm::inverse(projView);
 
@@ -22,7 +21,7 @@ std::vector<glm::vec4> getFrustrumCornersWorldSpace(const glm::mat4& projView)
 	return frustumCorners;
 }
 
-std::vector<glm::mat4> getLightSpaceMatrices()
+std::vector<glm::mat4> getLightSpaceMatrices(Camera& cam)
 {
 	std::vector<glm::mat4> ret;
 	for (size_t i = 0; i < shadowCascadeLevels.size() + 1; ++i)
@@ -135,3 +134,4 @@ namespace Shadow_values {
 	std::vector<GLfloat> shadowCascadeLevels{500.0f/50.0f, 500.0f/25.0f, 500.0f/10.0f, 500.0f/2.0f};
 	bool shadow{ true };
 }
+*/
