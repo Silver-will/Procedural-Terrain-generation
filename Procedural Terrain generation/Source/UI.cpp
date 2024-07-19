@@ -7,7 +7,7 @@ using namespace std::literals::string_literals;
 //using namespace Light_values;
 
 //directly read display and edit lighting values
-void setLights(vec3& lightValues);
+void setLights(glm::vec3& lightValues);
 
 void SetupUI(bool* p_open)
 {
@@ -227,9 +227,9 @@ void SetupUI(bool* p_open)
     */
 }
 
-string GetPathFromFileDialog()
+/*string GetPathFromFileDialog()
 {
-    /*nfdchar_t* path = nullptr;
+   nfdchar_t* path = nullptr;
     nfdresult_t result = NFD_OpenDialog(NULL, NULL, &path);
 
     if (result == NFD_OKAY)
@@ -245,8 +245,9 @@ string GetPathFromFileDialog()
         Log(string(NFD_GetError()));
         return "E";
     }
-    */
+    
 }
+*/
 
 static void HelpMarker(const char* desc)
 {
@@ -260,7 +261,7 @@ static void HelpMarker(const char* desc)
     }
 }
 
-void setLights(vec3& lightValues)
+void setLights(glm::vec3& lightValues)
 {
     ImGui::InputFloat("R", &lightValues[0], 0.00f, 1.0f);
     ImGui::InputFloat("G", &lightValues[1], 0.00f, 1.0f);

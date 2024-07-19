@@ -1,32 +1,33 @@
 #include "Terrain.h"
 
-void Terrain::GenerateVertices(std::vector<float>& noiseMap, int width, int height)
+void Terrain::GenerateVertices()
 {
+    
     for (int i = 0; i <= patchCount - 1; i++)
     {
         for (int j = 0; j <= patchCount - 1; j++)
         {
-            vertices.push_back(-width / 2.0f + width * i / (float)patchCount); // v.x
-            vertices.push_back(0.0f); // v.y
-            vertices.push_back(-height / 2.0f + height * j / (float)patchCount); // v.z
-            vertices.push_back(i / (float)patchCount); // u
-            vertices.push_back(j / (float)patchCount); // v
+            vertices.push_back(-map.noiseWidth / 2.0f + map.noiseWidth * i / (float)patchCount); 
+            vertices.push_back(0.0f); 
+            vertices.push_back(-map.noiseHeight / 2.0f + map.noiseHeight * j / (float)patchCount); 
+            vertices.push_back(i / (float)patchCount); 
+            vertices.push_back(j / (float)patchCount); 
 
-            vertices.push_back(-width / 2.0f + width * (i + 1) / (float)patchCount); // v.x
-            vertices.push_back(0.0f); // v.y
-            vertices.push_back(-height / 2.0f + height * j / (float)patchCount); // v.z
-            vertices.push_back((i + 1) / (float)patchCount); // u
-            vertices.push_back(j / (float)patchCount); // v
+            vertices.push_back(-map.noiseWidth / 2.0f + map.noiseWidth * (i + 1) / (float)patchCount);
+            vertices.push_back(0.0f);
+            vertices.push_back(-map.noiseHeight / 2.0f + map.noiseHeight * j / (float)patchCount); 
+            vertices.push_back((i + 1) / (float)patchCount); 
+            vertices.push_back(j / (float)patchCount); 
 
-            vertices.push_back(-width / 2.0f + width * i / (float)patchCount); // v.x
+            vertices.push_back(-map.noiseWidth / 2.0f + map.noiseWidth * i / (float)patchCount); 
             vertices.push_back(0.0f); // v.y
-            vertices.push_back(-height / 2.0f + height * (j + 1) / (float)patchCount); // v.z
+            vertices.push_back(-map.noiseHeight / 2.0f + map.noiseHeight * (j + 1) / (float)patchCount);
             vertices.push_back(i / (float)patchCount); // u
             vertices.push_back((j + 1) / (float)patchCount); // v
 
-            vertices.push_back(-width / 2.0f + width * (i + 1) / (float)patchCount); // v.x
+            vertices.push_back(-map.noiseWidth / 2.0f + map.noiseWidth * (i + 1) / (float)patchCount); // v.x
             vertices.push_back(0.0f); // v.y
-            vertices.push_back(-height / 2.0f + height * (j + 1) / (float)patchCount); // v.z
+            vertices.push_back(-map.noiseHeight / 2.0f + map.noiseHeight * (j + 1) / (float)patchCount); // v.z
             vertices.push_back((i + 1) / (float)patchCount); // u
             vertices.push_back((j + 1) / (float)patchCount); // v
         }
@@ -55,10 +56,19 @@ void Terrain::SetPatchCount(int patch)
     patchCount = patch;
 }
 
-void Terrain::Draw(Shader& shader)
+void Terrain::Draw()
 {
     glBindVertexArray(terrainVao);
     glDrawArrays(GL_PATCHES, 0, NUM_PATCH_PTS * patchCount * patchCount);
+}
+
+void Terrain::Update()
+{
+    if (map.ValueChanged())
+    {
+        map.GenerateNoiseMap();
+        map.UpdateNoiseTexture();
+    }
 }
 
 void Terrain::Cleanup()

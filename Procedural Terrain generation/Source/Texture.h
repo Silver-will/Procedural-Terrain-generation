@@ -1,7 +1,6 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
-#include<GLAD/glad.h>
 #include<GLFW/glfw3.h>
 #include<string>
 #include"General_utility.h"
@@ -10,7 +9,7 @@ struct Texture
 {
 	Texture() {};
 	//Load Texture from image file
-	Texture(string texturePath, GLenum wrapping, GLenum sampleFilter);
+	Texture(std::string texturePath, GLenum wrapping, GLenum sampleFilter);
 	//Create empty texture in memory
 	Texture(int width,int height,void* data, GLenum format, GLenum wrapping, GLenum sampleFilter);
 	//Update texture data

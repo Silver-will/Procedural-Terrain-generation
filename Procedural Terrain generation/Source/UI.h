@@ -6,6 +6,6 @@
 #include "General_utility.h"
 void SetupUI(bool* p_open);
 //opens a native file explorer context to enable anyone to load models
-string GetPathFromFileDialog();
+std::string GetPathFromFileDialog();
 static void HelpMarker(const char* desc);
 #endif

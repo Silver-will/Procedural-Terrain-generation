@@ -5,6 +5,7 @@
 #include "UI.h"
 #include "Shader.h"
 #include "Camera.h"
+#include "Terrain.h"
 
 void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int modifiers);
@@ -64,6 +65,11 @@ int main()
 	Shader terrainShader("../Shaders/Terrain.vs", "../Shaders/Terrain.fs", "", "../Shaders/Terrain.tcs", "../Shaders/Terrain.tes");
 	Shader SkyboxShader("../Shaders/Skybox.vs", "../Shaders/Skybox.fs");
 
+
+	Terrain terr(256, 256);
+	//terr.SetPatchCount();
+	terr.GenerateVertices();
+
 	while (!glfwWindowShouldClose(window))
 	{
 		ProcessInput(window);
@@ -73,12 +79,15 @@ int main()
 
 		glm::mat4 projection = glm::perspective(glm::radians(cam.zoom), (float)WIDTH / (float)HEIGHT, 0.1f, 100000.0f);
 		glm::mat4 view = cam.GetView();
+		
+		terrainShader.use();
 		terrainShader.SetMatrix4("projection", projection);
 		terrainShader.SetMatrix4("view", view);
 
 		// world transformation
 		glm::mat4 model = glm::mat4(1.0f);
 		terrainShader.SetMatrix4("model", model);
+		terr.Draw();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

@@ -28,7 +28,7 @@ float FBM::Fade(float t) { return t * t * t * (t * (t * 6 - 15) + 10); }
 float FBM::Grad(int hash, float x) { return (hash & 1) == 0 ? x : -x; }
 float FBM::Grad(int hash, float x, float y) { return ((hash & 1) == 0 ? x : -x) + ((hash & 2) == 0 ? y : -y); }
 
-std::vector<float> FBM::GenerateNoiseMap()
+void FBM::GenerateNoiseMap()
 {
     if (noise1.scale <= 0.0f || noise2.scale <= 0.0f)
     {
@@ -117,4 +117,15 @@ void FBM::CreateNoiseTexture()
 void FBM::UpdateNoiseTexture()
 {
     noisetexture.UpdateTexture(noiseMapValues.data());
+}
+
+bool FBM::ValueChanged()
+{
+    if (noise1 != noise1_prev || noise2 != noise2_prev)
+    {
+        return true;
+        noise1_prev = noise1;
+        noise2_prev = noise2;
+    }
+    return false;
 }

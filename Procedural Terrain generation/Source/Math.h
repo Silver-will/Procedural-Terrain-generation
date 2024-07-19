@@ -3,10 +3,6 @@
 #include<random>
 #include<glm/glm.hpp>
 
-float random_float(float min, float max) 
-{ 
-	return min + (max - min) * (rand() / TF_RAND_MAX + 1.0f);
-}
 float Inv_Lerp(float a, float b, float v) { return (v - a) / (b - a); }
 inline glm::vec3 lerp(const glm::vec3& u, const glm::vec3& v, const float x) { return u + x * (v - u); }
 inline glm::vec3 clamp(const glm::vec3& v, const glm::vec3& c0, const glm::vec3& c1) { return min(max(v, c0), c1); }

@@ -4,14 +4,14 @@
 #include<sstream>
 using namespace std;
 
-string loadFromFile(string_view shader)
+std::string loadFromFile(std::string_view shader)
 {
     fstream shade;
-    string code;
+    std::string code;
     shade.exceptions(std::fstream::failbit | std::fstream::badbit);
     try {
         shade.open(shader);
-        stringstream hold;
+        std::stringstream hold;
         hold << shade.rdbuf();
         code = hold.str();
         shade.close();
@@ -23,11 +23,11 @@ string loadFromFile(string_view shader)
     return code;
     
 }
-Shader::Shader(string_view vertexPath, string_view fragmentPath, string_view geometryPath, string_view tcsPath, string_view tesPath)
+Shader::Shader(std::string_view vertexPath, std::string_view fragmentPath, std::string_view geometryPath, std::string_view tcsPath, std::string_view tesPath)
 {
     GLuint vshader{}, fshader{}, gshader{}, tesShader{}, tcsShader{};
-    string vertex = loadFromFile(vertexPath);
-    string fragment = loadFromFile(fragmentPath);
+    std::string vertex = loadFromFile(vertexPath);
+    std::string fragment = loadFromFile(fragmentPath);
 
     this->shad = glCreateProgram();
     AddOptionalShaderStage(gshader, geometryPath, GL_GEOMETRY_SHADER);
@@ -60,10 +60,10 @@ Shader::Shader(string_view vertexPath, string_view fragmentPath, string_view geo
 }
 
 
-Shader::Shader(string_view computePath)
+Shader::Shader(std::string_view computePath)
 {
     GLuint CShader{};
-    string compute = loadFromFile(computePath);
+    std::string compute = loadFromFile(computePath);
     const char* computeCode = compute.c_str();
     
     this->shad = glCreateProgram();
@@ -80,11 +80,11 @@ Shader::Shader(string_view computePath)
     glDeleteShader(CShader);
 }
 
-void Shader::AddOptionalShaderStage(GLuint& shaderRef, std::string_view path, int shaderType)
+void Shader::AddOptionalShaderStage(GLuint& shaderRef, std::string_view path, GLenum shaderType)
 {
-    auto shaderName = CheckShaderType(shaderType);
     if (path != "")
     {
+        auto shaderName = CheckShaderType(shaderType);
         std::string shader = loadFromFile(path);
         const char* shaderCode = shader.c_str();
         shaderRef = glCreateShader(shaderType);
@@ -96,7 +96,7 @@ void Shader::AddOptionalShaderStage(GLuint& shaderRef, std::string_view path, in
 }
 
 
-std::string Shader::CheckShaderType(int shaderType)
+std::string Shader::CheckShaderType(GLenum shaderType)
 {
     if (shaderType == GL_GEOMETRY_SHADER)
         return "GEOMETRY";
