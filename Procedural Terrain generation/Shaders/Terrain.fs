@@ -17,7 +17,7 @@ in TES_OUT
 }tes_in;
 
 
-vec3 CalcSlopeNormal(vec2 texCoord)
+/*vec3 CalcSlopeNormal(vec2 texCoord)
 {   
 	float textureDelta = 1/256.0;
 
@@ -42,3 +42,4 @@ float3 CalcNormal(float2 texCoord)
 	float3 normal = float3((left - right),2,(up - down));
 	return normalize(normal);
 }
+*/

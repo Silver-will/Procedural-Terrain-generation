@@ -14,13 +14,10 @@ layout(std140, binding = 0) uniform Matrices
 out TCS_OUT
 {
     mat4 mvp;
-    mat lightMatrix;
+    mat4 model;
+    mat4 lightMatrix;
     vec2 texCoord;
-}tcs_out;
-
-in vec2 TexCoord[];
-out vec2 TextureCoord[];
-out VS_OUT vs_out[];
+}tcs_out[];
 
 void main()
 {
@@ -28,6 +25,7 @@ void main()
     tcs_out[gl_InvocationID].texCoord = TexCoord[gl_InvocationID];
     tcs_out[gl_InvocationID].lightMatrix = Matrices.lightMatrix;
     tcs_out[gl_InvocationID].mvp = Matrices.mvp;
+    tcs_out[gl_InvocationID].model = Matrices.model;
 
     if(gl_InvocationID == 0)
     {

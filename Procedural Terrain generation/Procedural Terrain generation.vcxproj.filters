@@ -118,5 +118,11 @@
     <None Include="Shaders\Terrain.vs">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="Shaders\Shadow.tcs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\Shadow.tes">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

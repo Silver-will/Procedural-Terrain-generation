@@ -11,7 +11,10 @@ layout(std140, binding = 0) uniform Matrices
     uniform mat4 lightMatrix;
 }
 
+out vec2 TexCoord;
+
 void main()
 {
     gl_Position = vec4(aPos,1.0f);
+    TexCoord = aTexCoord;
 }

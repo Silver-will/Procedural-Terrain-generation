@@ -2,6 +2,8 @@
 #include<iostream>
 #include<fstream>
 #include<sstream>
+#include<filesystem>
+
 using namespace std;
 
 std::string loadFromFile(std::string_view shader)
