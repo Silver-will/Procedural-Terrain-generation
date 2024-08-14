@@ -3,9 +3,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include<stb_image.h>
 
-
-
-Texture::Texture(string texturePath,GLenum wrapping, GLenum sampleFilter)
+Texture::Texture(std::string texturePath, GLenum wrapping, GLenum sampleFilter)
 {
 	GLint width, height, nrchannels;
 	glGenTextures(1, &this->TexID);
@@ -46,6 +44,7 @@ Texture::Texture(string texturePath,GLenum wrapping, GLenum sampleFilter)
 	}
 	stbi_image_free(data);
 	glBindTexture(0, GL_TEXTURE_2D);
+	index++;
 }
 
 Texture::Texture(int width, int height, void* data, GLenum format, GLenum wrapping, GLenum sampleFilter)
@@ -65,6 +64,7 @@ Texture::Texture(int width, int height, void* data, GLenum format, GLenum wrappi
 	glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 	glGenerateMipmap(GL_TEXTURE_2D);
 	glBindTexture(0, GL_TEXTURE_2D);
+	index++;
 }
 
 void Texture::CreateTexture(int width, int height, void* data, GLenum format, GLenum wrapping, GLenum sampleFilter)
@@ -84,6 +84,7 @@ void Texture::CreateTexture(int width, int height, void* data, GLenum format, GL
 	glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 	glGenerateMipmap(GL_TEXTURE_2D);
 	glBindTexture(0, GL_TEXTURE_2D);
+	index++;
 }
 void Texture::UpdateTexture(void* data)
 {
@@ -92,3 +93,9 @@ void Texture::UpdateTexture(void* data)
 	//glBindTexture(0, GL_TEXTURE_2D);
 }
 
+
+void Texture::BindTexture()
+{
+	glActiveTexture(GL_TEXTURE0 + index);
+	glBindTexture(GL_TEXTURE_2D, TexID);
+}

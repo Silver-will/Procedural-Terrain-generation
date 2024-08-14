@@ -15,6 +15,9 @@ struct Texture
 	//Update texture data
 	void CreateTexture(int width, int height, void* data, GLenum format, GLenum wrapping, GLenum sampleFilter);
 	void UpdateTexture(void* data);
+	void BindTexture();
+	
+	static GLuint index;
 	GLuint TexID{};
 	GLuint format{};
 	int width{};

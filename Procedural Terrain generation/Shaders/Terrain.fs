@@ -1,5 +1,12 @@
 uniform Sampler2D noiseMap;
 
+uniform Sampler2D meadowDiffuse;
+uniform Sampler2D meadowNormal;
+uniform Sampler2D meadowHeight;
+uniform Sampler2D sandDiffuse;
+uniform Sampler2D sandNormal;
+uniform Sampler2D sandHeight;
+
 vec3 CalcSlopeNormal(vec2 texCoord)
 {   
 	float textureDelta = 1/256.0;

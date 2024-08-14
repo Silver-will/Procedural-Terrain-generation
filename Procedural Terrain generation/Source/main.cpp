@@ -1,4 +1,5 @@
 #include<iostream>
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include<glm/glm.hpp>
@@ -6,6 +7,7 @@
 #include "Shader.h"
 #include "Camera.h"
 #include "Terrain.h"
+#include "Texture.h"
 
 void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int modifiers);
@@ -34,7 +36,7 @@ int main()
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_MULTISAMPLE);
 
-	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Millie", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Terr 3D", NULL, NULL);
 	if (window == nullptr)
 	{
 		Log("Failed to load Window");
@@ -60,14 +62,23 @@ int main()
 		return -1;
 	}
 
-	Shader shadowShader("../Shaders/Shadow.vs", "../Shaders/Shadow.fs");
-	Shader erosionShader("../Shaders/Erosion.comp");
+	//Load Shaders
+	//Shader shadowShader("../Shaders/Shadow.vs", "../Shaders/Shadow.fs");
+	//Shader erosionShader("../Shaders/Erosion.comp");
 	Shader terrainShader("../Shaders/Terrain.vs", "../Shaders/Terrain.fs", "", "../Shaders/Terrain.tcs", "../Shaders/Terrain.tes");
 	Shader SkyboxShader("../Shaders/Skybox.vs", "../Shaders/Skybox.fs");
 
+	//Load Terrain Textures
+	Texture meadowDiffuse("../Resources/meadowDiffuse.png", GL_REPEAT, GL_LINEAR);
+	Texture meadowHeight("../Resources/meadowHeight.png", GL_REPEAT, GL_LINEAR);
+	Texture meadowNormal("../Resources/meadowNormal.png", GL_REPEAT, GL_LINEAR);
+
+	Texture sandDiffuse("../Resources/sandDiffuse.png", GL_REPEAT, GL_LINEAR);
+	Texture sandHeight("../Resources/sandHeight.png", GL_REPEAT, GL_LINEAR);
+	Texture sandNormal("../Resources/sandNormal.png", GL_REPEAT, GL_LINEAR);
 
 	Terrain terr(256, 256);
-	//terr.SetPatchCount();
+
 	terr.GenerateVertices();
 
 	while (!glfwWindowShouldClose(window))
@@ -79,14 +90,22 @@ int main()
 
 		glm::mat4 projection = glm::perspective(glm::radians(cam.zoom), (float)WIDTH / (float)HEIGHT, 0.1f, 100000.0f);
 		glm::mat4 view = cam.GetView();
+		glm::mat4 model = glm::mat4(1.0f);
 		
 		terrainShader.use();
-		terrainShader.SetMatrix4("projection", projection);
+		terrainShader.SetMatrix4("mvp", projection * view * model);
 		terrainShader.SetMatrix4("view", view);
-
-		// world transformation
-		glm::mat4 model = glm::mat4(1.0f);
 		terrainShader.SetMatrix4("model", model);
+
+		//Bind Textures
+		meadowDiffuse.BindTexture();
+		meadowHeight.BindTexture();
+		meadowNormal.BindTexture();
+		sandDiffuse.BindTexture();
+		sandHeight.BindTexture();
+		sandNormal.BindTexture();
+
+		//Draw Terrain
 		terr.Draw();
 
 		glfwSwapBuffers(window);
