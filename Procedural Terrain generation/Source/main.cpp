@@ -2,12 +2,13 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include<glm/glm.hpp>
 #include "UI.h"
 #include "Shader.h"
 #include "Camera.h"
 #include "Terrain.h"
 #include "Texture.h"
+#include "Math.h"
+#include "Buffer.h"
 
 void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int modifiers);
@@ -27,10 +28,10 @@ const int HEIGHT = 1080;
 
 int main()
 {
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwInit();
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 
 	glEnable(GL_DEPTH_TEST);
@@ -63,7 +64,7 @@ int main()
 	}
 
 	//Load Shaders
-	//Shader shadowShader("../Shaders/Shadow.vs", "../Shaders/Shadow.fs");
+	Shader shadowShader("../Shaders/Shadow.vs", "../Shaders/Shadow.fs");
 	//Shader erosionShader("../Shaders/Erosion.comp");
 	Shader terrainShader("../Shaders/Terrain.vs", "../Shaders/Terrain.fs", "", "../Shaders/Terrain.tcs", "../Shaders/Terrain.tes");
 	Shader SkyboxShader("../Shaders/Skybox.vs", "../Shaders/Skybox.fs");
@@ -78,8 +79,18 @@ int main()
 	Texture sandNormal("../Resources/sandNormal.png", GL_REPEAT, GL_LINEAR);
 
 	Terrain terr(256, 256);
-
 	terr.GenerateVertices();
+
+	GLuint terrainId = glGetUniformBlockIndex(terrainShader.shad, "Matrices");
+	GLuint shadowId = glGetUniformBlockIndex(shadowShader.shad, "Matrices");
+	glUniformBlockBinding(terrainShader.shad, terrainId, 0);
+	glUniformBlockBinding(shadowShader.shad, shadowId, 0);
+
+	UniformData data;
+	data.proj = glm::perspective(cam.zoom, (float)WIDTH / (float)HEIGHT, 0.1f, 100.0f);
+	GLuint ubo{};
+	CreateUniformBuffer(ubo,sizeof(UniformData));
+	UploadToUniformBuffer(ubo, 0, data.proj);
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -88,14 +99,14 @@ int main()
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glm::mat4 projection = glm::perspective(glm::radians(cam.zoom), (float)WIDTH / (float)HEIGHT, 0.1f, 100000.0f);
-		glm::mat4 view = cam.GetView();
-		glm::mat4 model = glm::mat4(1.0f);
-		
-		terrainShader.use();
-		terrainShader.SetMatrix4("mvp", projection * view * model);
-		terrainShader.SetMatrix4("view", view);
-		terrainShader.SetMatrix4("model", model);
+		data.model = glm::mat4(1.0f);
+		UploadToUniformBuffer(ubo, sizeof(glm::mat4), data.model);
+
+		data.view = cam.GetView();
+		UploadToUniformBuffer(ubo, sizeof(glm::mat4) * 2, data.view);
+
+		data.mvp = data.proj * data.view * data.model;
+		UploadToUniformBuffer(ubo, sizeof(glm::mat4) * 3, data.mvp);
 
 		//Bind Textures
 		meadowDiffuse.BindTexture();
@@ -105,6 +116,7 @@ int main()
 		sandHeight.BindTexture();
 		sandNormal.BindTexture();
 
+		terrainShader.use();
 		//Draw Terrain
 		terr.Draw();
 

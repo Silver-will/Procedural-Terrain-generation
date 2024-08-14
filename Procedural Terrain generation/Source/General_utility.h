@@ -3,9 +3,6 @@
 #include<GLAD/glad.h>
 #include<GLFW/glfw3.h>
 #include<string>
-
-#include<glm/glm.hpp>
-#include<glm/gtc/type_ptr.hpp>
 #include<source_location>
 void Log(const std::string message, const std::source_location loc = std::source_location::current());
 #endif

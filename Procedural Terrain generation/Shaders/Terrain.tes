@@ -3,24 +3,30 @@ layout(quads, fractional_odd_spacing, ccw) in;
 
 uniform sampler2D noiseMap;
 
-out VS_OUT
+out TES_OUT
 {
     float height;
     vec2 TexCoord;
     vec3 fragPos;
     vec4 fragPosLightSpace;
-}vs_out;
+}tes_out;
 
-layout(std140, binding = 1) uniform MatricesTes
+
+in TCS_OUT
 {
-    uniform mat4 mvp;
-    uniform mat4 lightMatrix;
-    float scale;
-}
+    mat4 mvp;
+    mat lightMatrix;
+    vec2 texCoord;
+}tcs_in;
 
 uniform vec4 outer;
 uniform vec2 inner;
 uniform Sampler2D noise;
+
+out vec3 fragPos;
+out vec3 fragPosLightSpace;
+out vec2 texCoord;
+out float height;
 
 void main()
 {
@@ -34,9 +40,9 @@ void main()
 
     vec2 t0 = (t01 - t00) * u + t00;
     vec2 t1 = (t11 - t10) * u + t10;
-    vec2 texCoord = (t1 - t0) * v + t0;
+    vec2 tex = (t1 - t0) * v + t0;
 
-    Height = texture(noiseMap, texCoord).y * 64.0 - 16.0;
+    Height = texture(noiseMap, tex).y * 64.0 - 16.0;
 
     vec4 p00 = gl_in[0].gl_Position;
     vec4 p01 = gl_in[1].gl_Position;

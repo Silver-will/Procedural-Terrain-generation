@@ -1,3 +1,4 @@
+#version 450 core
 uniform Sampler2D noiseMap;
 
 uniform Sampler2D meadowDiffuse;
@@ -6,6 +7,15 @@ uniform Sampler2D meadowHeight;
 uniform Sampler2D sandDiffuse;
 uniform Sampler2D sandNormal;
 uniform Sampler2D sandHeight;
+
+in TES_OUT
+{
+    float height;
+    vec2 TexCoord;
+    vec3 fragPos;
+    vec4 fragPosLightSpace;
+}tes_in;
+
 
 vec3 CalcSlopeNormal(vec2 texCoord)
 {   

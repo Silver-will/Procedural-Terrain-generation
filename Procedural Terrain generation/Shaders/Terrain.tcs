@@ -4,19 +4,30 @@ layout(vertices=4) out;
 
 layout(std140, binding = 0) uniform Matrices
 {
+    uniform mat4 proj;
     uniform mat4 model;
     uniform mat4 view;
     uniform mat4 mvp;
     uniform mat4 lightMatrix;
 }
 
+out TCS_OUT
+{
+    mat4 mvp;
+    mat lightMatrix;
+    vec2 texCoord;
+}tcs_out;
+
 in vec2 TexCoord[];
 out vec2 TextureCoord[];
+out VS_OUT vs_out[];
 
 void main()
 {
     gl_out[gl_InvocationID].gl_Position = gl_in[gl_InvocationID].gl_Position;
-    TextureCoord[gl_InvocationID] = TexCoord[gl_InvocationID];
+    tcs_out[gl_InvocationID].texCoord = TexCoord[gl_InvocationID];
+    tcs_out[gl_InvocationID].lightMatrix = Matrices.lightMatrix;
+    tcs_out[gl_InvocationID].mvp = Matrices.mvp;
 
     if(gl_InvocationID == 0)
     {

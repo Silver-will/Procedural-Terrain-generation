@@ -2,6 +2,7 @@
 #define MATH_H
 #include<random>
 #include<glm/glm.hpp>
+#include<glm/gtc/type_ptr.hpp>
 
 float Inv_Lerp(float a, float b, float v) { return (v - a) / (b - a); }
 inline glm::vec3 lerp(const glm::vec3& u, const glm::vec3& v, const float x) { return u + x * (v - u); }
