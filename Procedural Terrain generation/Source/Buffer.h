@@ -12,6 +12,12 @@ struct UniformData {
 };
 
 void CreateUniformBuffer(GLuint& id, GLuint size);
+
 template<typename t>
-void UploadToUniformBuffer(GLuint& id, GLuint bufferOffset, t& data);
+void UploadToUniformBuffer(GLuint& id, GLuint bufferOffset, t& data)
+{
+	glBindBuffer(GL_UNIFORM_BUFFER, id);
+	glBufferSubData(GL_UNIFORM_BUFFER, bufferOffset, sizeof(data), glm::value_ptr(data));
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+}
 #endif

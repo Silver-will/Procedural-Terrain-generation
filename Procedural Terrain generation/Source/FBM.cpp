@@ -21,6 +21,7 @@ float FBM::Noise2(float x, float y)
 
 FBM::FBM(int width, int height): noiseWidth{width}, noiseHeight{height}
 { 
+    noiseMapValues.resize(256 * 256);
     GenerateNoiseMap();
     CreateNoiseTexture();
 }
@@ -30,10 +31,11 @@ float FBM::Grad(int hash, float x, float y) { return ((hash & 1) == 0 ? x : -x) 
 
 void FBM::GenerateNoiseMap()
 {
+    
     if (noise1.scale <= 0.0f || noise2.scale <= 0.0f)
     {
-        noise1.scale = 0.0f;
-        noise2.scale = 0.0f;
+        noise1.scale = 0.1f;
+        noise2.scale = 0.1f;
     }
    
     float maxNoise = std::numeric_limits<float>::min();
@@ -75,6 +77,7 @@ void FBM::GenerateNoiseMap()
             noiseMapValues[x + y * noiseWidth] = Inv_Lerp(minNoise, maxNoise, noiseMapValues[x + y * noiseWidth]);
         }
     }
+
 }
 
 float FBM::Pattern(float x, float y,std::vector<glm::vec2>& octaveOffsets)

@@ -8,11 +8,12 @@ using namespace std;
 
 std::string loadFromFile(std::string_view shader)
 {
+    auto p = std::filesystem::current_path();
     fstream shade;
     std::string code;
     shade.exceptions(std::fstream::failbit | std::fstream::badbit);
     try {
-        shade.open(shader);
+        shade.open(p.string() + shader.data());
         std::stringstream hold;
         hold << shade.rdbuf();
         code = hold.str();

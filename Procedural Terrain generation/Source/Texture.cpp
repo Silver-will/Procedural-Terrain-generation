@@ -2,9 +2,15 @@
 #include "General_utility.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include<stb_image.h>
+#include<filesystem>
+
+GLuint Texture::index = 0;
 
 Texture::Texture(std::string texturePath, GLenum wrapping, GLenum sampleFilter)
 {
+	auto p = std::filesystem::current_path();
+
+	texturePath = p.string() + texturePath;
 	GLint width, height, nrchannels;
 	glGenTextures(1, &this->TexID);
 	glBindTexture(this->TexID, GL_TEXTURE_2D);

@@ -12,12 +12,12 @@ void CreateUniformBuffer(GLuint& id, GLuint size)
 	glBindBufferRange(GL_UNIFORM_BUFFER, 0, id, 0, size);
 }
 
-template<typename t>
+/*template<typename t>
 void UploadToUniformBuffer(GLuint& id, GLuint bufferOffset, t& data)
 {
 	glBindBuffer(GL_UNIFORM_BUFFER, id);
 	glBufferSubData(GL_UNIFORM_BUFFER, bufferOffset, sizeof(data), glm::value_ptr(data));
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
-
+*/
 #endif

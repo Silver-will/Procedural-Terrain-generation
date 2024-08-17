@@ -1,7 +1,6 @@
 #version 450 core
 
 layout(vertices=4) out;
-
 layout(std140, binding = 0) uniform Matrices
 {
     uniform mat4 proj;
@@ -9,7 +8,7 @@ layout(std140, binding = 0) uniform Matrices
     uniform mat4 view;
     uniform mat4 mvp;
     uniform mat4 lightMatrix;
-}
+};
 
 out TCS_OUT
 {
@@ -19,13 +18,15 @@ out TCS_OUT
     vec2 texCoord;
 }tcs_out[];
 
+in vec2 TexCoord[];
+
 void main()
 {
     gl_out[gl_InvocationID].gl_Position = gl_in[gl_InvocationID].gl_Position;
     tcs_out[gl_InvocationID].texCoord = TexCoord[gl_InvocationID];
-    tcs_out[gl_InvocationID].lightMatrix = Matrices.lightMatrix;
-    tcs_out[gl_InvocationID].mvp = Matrices.mvp;
-    tcs_out[gl_InvocationID].model = Matrices.model;
+    tcs_out[gl_InvocationID].lightMatrix = lightMatrix;
+    tcs_out[gl_InvocationID].mvp = mvp;
+    tcs_out[gl_InvocationID].model = model;
 
     if(gl_InvocationID == 0)
     {

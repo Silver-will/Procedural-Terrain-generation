@@ -32,10 +32,9 @@ int main()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_SAMPLES, 4);
 
-
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_MULTISAMPLE);
+	
 
 	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Terr 3D", NULL, NULL);
 	if (window == nullptr)
@@ -46,6 +45,9 @@ int main()
 	}
 
 	glfwMakeContextCurrent(window);
+	glfwSetFramebufferSizeCallback(window, FramebufferSizeCallback);
+	glfwSetCursorPosCallback(window, CursorPosCallback);
+
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -54,29 +56,29 @@ int main()
 	ImGui_ImplOpenGL3_Init();
 	bool showWindow = true;
 
-	glfwSetFramebufferSizeCallback(window, FramebufferSizeCallback);
-	glfwSetCursorPosCallback(window, CursorPosCallback);
-
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
 		std::cout << "Failed to initialize GLAD" << std::endl;
 		return -1;
 	}
 
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_MULTISAMPLE);
+
 	//Load Shaders
-	Shader shadowShader("../Shaders/Shadow.vs", "../Shaders/Shadow.fs");
+	Shader shadowShader("/Shaders/Shadow.vs", "/Shaders/Shadow.fs", "", "/Shaders/Shadow.tcs", "/Shaders/Shadow.tes");
 	//Shader erosionShader("../Shaders/Erosion.comp");
-	Shader terrainShader("../Shaders/Terrain.vs", "../Shaders/Terrain.fs", "", "../Shaders/Terrain.tcs", "../Shaders/Terrain.tes");
-	Shader SkyboxShader("../Shaders/Skybox.vs", "../Shaders/Skybox.fs");
+	Shader terrainShader("/Shaders/Terrain.vs", "/Shaders/Terrain.fs", "", "/Shaders/Terrain.tcs", "/Shaders/Terrain.tes");
+	Shader SkyboxShader("/Shaders/Skybox.vs", "/Shaders/Skybox.fs");
 
 	//Load Terrain Textures
-	Texture meadowDiffuse("../Resources/meadowDiffuse.png", GL_REPEAT, GL_LINEAR);
-	Texture meadowHeight("../Resources/meadowHeight.png", GL_REPEAT, GL_LINEAR);
-	Texture meadowNormal("../Resources/meadowNormal.png", GL_REPEAT, GL_LINEAR);
+	Texture meadowDiffuse("/Resources/meadowDiffuse.png", GL_REPEAT, GL_LINEAR);
+	Texture meadowHeight("/Resources/meadowHeight.png", GL_REPEAT, GL_LINEAR);
+	Texture meadowNormal("/Resources/meadowNormal.png", GL_REPEAT, GL_LINEAR);
 
-	Texture sandDiffuse("../Resources/sandDiffuse.png", GL_REPEAT, GL_LINEAR);
-	Texture sandHeight("../Resources/sandHeight.png", GL_REPEAT, GL_LINEAR);
-	Texture sandNormal("../Resources/sandNormal.png", GL_REPEAT, GL_LINEAR);
+	Texture sandDiffuse("/Resources/sandDiffuse.png", GL_REPEAT, GL_LINEAR);
+	Texture sandHeight("/Resources/sandHeight.png", GL_REPEAT, GL_LINEAR);
+	Texture sandNormal("/Resources/sandNormal.png", GL_REPEAT, GL_LINEAR);
 
 	Terrain terr(256, 256);
 	terr.GenerateVertices();
@@ -91,6 +93,8 @@ int main()
 	GLuint ubo{};
 	CreateUniformBuffer(ubo,sizeof(UniformData));
 	UploadToUniformBuffer(ubo, 0, data.proj);
+
+	glm::vec3 lightDir;
 
 	while (!glfwWindowShouldClose(window))
 	{

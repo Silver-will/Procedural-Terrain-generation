@@ -6,7 +6,7 @@ uniform sampler2D noiseMap;
 out TES_OUT
 {
     float height;
-    vec2 TexCoord;
+    vec2 texCoord;
     vec4 fragPos;
     vec4 fragPosLightSpace;
 }tes_out;
@@ -15,16 +15,12 @@ in TCS_OUT
 {
     mat4 mvp;
     mat4 model;
-    mat lightMatrix;
+    mat4 lightMatrix;
     vec2 texCoord;
 }tcs_in[];
 
 uniform vec4 outer;
 uniform vec2 inner;
-uniform Sampler2D noise;
-
-
-out VS_OUT vs_out[];
 
 out vec3 fragPos;
 out vec3 fragPosLightSpace;
@@ -36,18 +32,17 @@ void main()
     float u = gl_TessCoord.x;
     float v = gl_TessCoord.y;
 
-    vec2 t00 = TextureCoord[0];
-    vec2 t01 = TextureCoord[1];
-    vec2 t10 = TextureCoord[2];
-    vec2 t11 = TextureCoord[3];
+    vec2 t00 = tcs_in[0].texCoord;
+    vec2 t01 = tcs_in[1].texCoord;
+    vec2 t10 = tcs_in[2].texCoord;
+    vec2 t11 = tcs_in[3].texCoord;
 
     vec2 t0 = (t01 - t00) * u + t00;
     vec2 t1 = (t11 - t10) * u + t10;
     vec2 tex = (t1 - t0) * v + t0;
     tes_out.texCoord = tex;
 
-    Height = texture(noiseMap, tex).y * 64.0 - 16.0;
-    tes_out.height = Height;
+    tes_out.height = texture(noiseMap, tex).y * 64.0 - 16.0;
 
     vec4 p00 = gl_in[0].gl_Position;
     vec4 p01 = gl_in[1].gl_Position;
@@ -60,9 +55,9 @@ void main()
 
     vec4 p0 = (p01 - p00) * u + p00;
     vec4 p1 = (p11 - p10) * u + p10;
-    vec4 p = (p1 - p0) * v + p0 + normal * Height;
+    vec4 p = (p1 - p0) * v + p0 + normal * tes_out.height;
 
-    gl_Position = mvp * p;
+    gl_Position = tcs_in[0].mvp * p;
     tes_out.fragPos = tcs_in[0].model * p;
     tes_out.fragPosLightSpace = tcs_in[0].lightMatrix * tes_out.fragPos;
 }
