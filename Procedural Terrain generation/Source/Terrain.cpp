@@ -1,5 +1,5 @@
 #include "Terrain.h"
-
+#include <iostream>
 void Terrain::GenerateVertices()
 {
     
@@ -34,9 +34,9 @@ void Terrain::GenerateVertices()
     }
 
     glGenVertexArrays(1, &terrainVao);
-    glBindVertexArray(terrainVbo);
-
     glGenBuffers(1, &terrainVbo);
+    glBindVertexArray(terrainVbo);
+   
     glBindBuffer(GL_ARRAY_BUFFER, terrainVbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
 
@@ -46,7 +46,6 @@ void Terrain::GenerateVertices()
     // texCoord attribute
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(sizeof(float) * 3));
     glEnableVertexAttribArray(1);
-
     glPatchParameteri(GL_PATCH_VERTICES, NUM_PATCH_PTS);
 
 }

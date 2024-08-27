@@ -5,11 +5,12 @@ uniform sampler2D noiseMap;
 
 out TES_OUT
 {
-    float height;
-    vec2 texCoord;
-    vec4 fragPos;
     vec4 fragPosLightSpace;
+	vec4 fragPos;	
+    vec2 texCoord;
+    float height;
 }tes_out;
+
 
 in TCS_OUT
 {
