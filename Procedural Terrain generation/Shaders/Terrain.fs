@@ -2,11 +2,11 @@
 out vec4 FragColor;
 
 uniform sampler2D meadowDiffuse;
-uniform sampler2D meadowNormal;
 uniform sampler2D meadowHeight;
+uniform sampler2D meadowNormal;
 uniform sampler2D sandDiffuse;
-uniform sampler2D sandNormal;
 uniform sampler2D sandHeight;
+uniform sampler2D sandNormal;
 uniform sampler2D noiseMap;
 
 uniform vec3 cameraPos;

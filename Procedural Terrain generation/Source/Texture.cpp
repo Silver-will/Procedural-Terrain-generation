@@ -4,45 +4,45 @@
 #include<stb_image.h>
 #include<filesystem>
 
-GLuint Texture::index = 0;
+GLuint Texture::Totalindex = 0;
 
-Texture::Texture(std::string texturePath, GLenum wrapping, GLenum sampleFilter)
+Texture::Texture(std::string texturePath, GLenum wrapping, GLenum sampleFilter):index{ Totalindex }
 {
 	auto p = std::filesystem::current_path();
-
 	texturePath = p.string() + texturePath;
+
 	GLint width, height, nrchannels;
 	glGenTextures(1, &this->TexID);
-	glBindTexture(this->TexID, GL_TEXTURE_2D);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapping);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapping);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, sampleFilter);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, sampleFilter);
 	
 	stbi_set_flip_vertically_on_load(true);
 	unsigned char* data = stbi_load(texturePath.c_str(), &width, &height, &nrchannels, 0);
 
 	this->width = width;
 	this->height = height;
-	this->format = format;
-	
-	GLenum format = GL_RGBA;
-	GLenum internalFormat = GL_SRGB_ALPHA;
-	if (nrchannels == 1)
-		internalFormat = format = GL_RED;
-	else if(nrchannels == 2)
-		internalFormat = format = GL_RG;
-	else if (nrchannels == 3)
-	{
-		internalFormat = GL_SRGB;
-		format = GL_RGB;
-	}
 
 	if (data)
 	{
-		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+		GLenum Imgformat = GL_RGBA;
+		GLenum internalFormat = GL_SRGB_ALPHA;
+		if (nrchannels == 1)
+			internalFormat = Imgformat = GL_RED;
+		else if (nrchannels == 2)
+			internalFormat = Imgformat = GL_RG;
+		else if (nrchannels == 3)
+		{
+			internalFormat = GL_SRGB;
+			Imgformat = GL_RGB;
+		}
+		this->format = Imgformat;
+
+		glBindTexture(this->TexID, GL_TEXTURE_2D);
+		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, Imgformat, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapping);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapping);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, sampleFilter);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, sampleFilter);
 	}
 	else
 	{
@@ -50,10 +50,10 @@ Texture::Texture(std::string texturePath, GLenum wrapping, GLenum sampleFilter)
 	}
 	stbi_image_free(data);
 	glBindTexture(0, GL_TEXTURE_2D);
-	index++;
+	Totalindex++;
 }
 
-Texture::Texture(int width, int height, void* data, GLenum format, GLenum wrapping, GLenum sampleFilter)
+Texture::Texture(int width, int height, void* data, GLenum format, GLenum wrapping, GLenum sampleFilter):index{ Totalindex }
 {
 	this->width = width;
 	this->height = height;
@@ -62,15 +62,15 @@ Texture::Texture(int width, int height, void* data, GLenum format, GLenum wrappi
 	glGenTextures(1, &this->TexID);
 	glBindTexture(this->TexID, GL_TEXTURE_2D);
 
+	glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+	glGenerateMipmap(GL_TEXTURE_2D);
+
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapping);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapping);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, sampleFilter);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, sampleFilter);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-	glGenerateMipmap(GL_TEXTURE_2D);
-	glBindTexture(0, GL_TEXTURE_2D);
-	index++;
+	Totalindex++;
 }
 
 void Texture::CreateTexture(int width, int height, void* data, GLenum format, GLenum wrapping, GLenum sampleFilter)
@@ -90,7 +90,6 @@ void Texture::CreateTexture(int width, int height, void* data, GLenum format, GL
 	glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 	glGenerateMipmap(GL_TEXTURE_2D);
 	glBindTexture(0, GL_TEXTURE_2D);
-	index++;
 }
 void Texture::UpdateTexture(void* data)
 {

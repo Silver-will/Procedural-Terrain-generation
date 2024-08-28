@@ -10,10 +10,12 @@ struct Terrain
 	void Draw();
 	void SetPatchCount(int patch);
 	void Update();
+	void BindFBM();
 	void Cleanup();
+	FBM map;
 
 private:
-	FBM map;
+	
 	GLuint terrainVao{}, terrainVbo{};
 	GLuint NUM_PATCH_PTS = 4u;
 	std::vector<float> vertices;

@@ -24,9 +24,9 @@ void main()
 {
     gl_out[gl_InvocationID].gl_Position = gl_in[gl_InvocationID].gl_Position;
     tcs_out[gl_InvocationID].texCoord = TexCoord[gl_InvocationID];
-    tcs_out[gl_InvocationID].lightMatrix = lightMatrix;
-    tcs_out[gl_InvocationID].mvp = mvp;
-    tcs_out[gl_InvocationID].model = model;
+    tcs_out[0].lightMatrix = lightMatrix;
+    tcs_out[0].mvp = mvp;
+    tcs_out[0].model = model;
 
     if(gl_InvocationID == 0)
     {

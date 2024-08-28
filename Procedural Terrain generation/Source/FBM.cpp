@@ -83,8 +83,7 @@ void FBM::GenerateNoiseMap()
 float FBM::Pattern(float x, float y,std::vector<glm::vec2>& octaveOffsets)
 {
     glm::vec2 q = glm::vec2(Fbm(x, y, noise1.octaves, octaveOffsets, noise1.scale, noise1.persistence, noise1.lacunarity),
-        Fbm(x + 5.2f, y + 1.3f, noise2.octaves, octaveOffsets, noise2.scale, noise2.persistence, noise2.lacunarity)
-    );
+        Fbm(x + 5.2f, y + 1.3f, noise2.octaves, octaveOffsets, noise2.scale, noise2.persistence, noise2.lacunarity));
 
     int octaves = (noise1.octaves + noise2.octaves) / 2;
     float scale = (noise1.scale + noise2.scale) /2;

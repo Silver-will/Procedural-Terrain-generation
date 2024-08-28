@@ -2,7 +2,7 @@
 #include <iostream>
 void Terrain::GenerateVertices()
 {
-    
+    std::cout << map.noiseWidth << std::endl;
     for (int i = 0; i <= patchCount - 1; i++)
     {
         for (int j = 0; j <= patchCount - 1; j++)
@@ -35,7 +35,7 @@ void Terrain::GenerateVertices()
 
     glGenVertexArrays(1, &terrainVao);
     glGenBuffers(1, &terrainVbo);
-    glBindVertexArray(terrainVbo);
+    glBindVertexArray(terrainVao);
    
     glBindBuffer(GL_ARRAY_BUFFER, terrainVbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
@@ -74,4 +74,9 @@ void Terrain::Cleanup()
 {
     glDeleteVertexArrays(1, &terrainVao);
     glDeleteBuffers(1, &terrainVbo);
+}
+
+void Terrain::BindFBM()
+{
+    map.noisetexture.BindTexture();
 }

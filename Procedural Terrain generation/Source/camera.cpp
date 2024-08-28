@@ -45,7 +45,7 @@ void Camera::ProcessOffset(GLfloat xPos, GLfloat yPos)
 	else
 	{
 		xOffset = xPos - lastX;
-		yOffset = yPos - lastY;
+		yOffset = lastY - yPos;
 		lastX = xPos;
 		lastY = yPos;
 	}
@@ -55,6 +55,12 @@ void Camera::ProcessOffset(GLfloat xPos, GLfloat yPos)
 
 	yaw += xOffset;
 	pitch += yOffset;
+
+	//clamp the values to prevent weird snapping
+	if (pitch > 89.0f)
+		pitch = 89.0f;
+	if (pitch < -89.0f)
+		pitch = -89.0f;
 
 	cameraTarget.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
 	cameraTarget.y = sin(glm::radians(pitch));

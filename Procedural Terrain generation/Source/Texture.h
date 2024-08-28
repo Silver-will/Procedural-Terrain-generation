@@ -7,7 +7,7 @@
 
 struct Texture
 {
-	Texture() {};
+	Texture() :index{ Totalindex } { Totalindex++; };
 	//Load Texture from image file
 	Texture(std::string texturePath, GLenum wrapping, GLenum sampleFilter);
 	//Create empty texture in memory
@@ -17,9 +17,10 @@ struct Texture
 	void UpdateTexture(void* data);
 	void BindTexture();
 	
-	static GLuint index;
+	static GLuint Totalindex;
+	GLuint index;
 	GLuint TexID{};
-	GLuint format{};
+	GLenum format{};
 	int width{};
 	int height{};
 };

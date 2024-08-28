@@ -47,6 +47,7 @@ int main()
 	glfwMakeContextCurrent(window);
 	glfwSetFramebufferSizeCallback(window, FramebufferSizeCallback);
 	glfwSetCursorPosCallback(window, CursorPosCallback);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 
 	IMGUI_CHECKVERSION();
@@ -66,10 +67,10 @@ int main()
 	glEnable(GL_MULTISAMPLE);
 
 	//Load Shaders
-	Shader shadowShader("/Shaders/Shadow.vs", "/Shaders/Shadow.fs", "", "/Shaders/Shadow.tcs", "/Shaders/Shadow.tes");
+	//Shader shadowShader("/Shaders/Shadow.vs", "/Shaders/Shadow.fs", "", "/Shaders/Shadow.tcs", "/Shaders/Shadow.tes");
 	//Shader erosionShader("../Shaders/Erosion.comp");
 	Shader terrainShader("/Shaders/Terrain.vs", "/Shaders/Terrain.fs", "", "/Shaders/Terrain.tcs", "/Shaders/Terrain.tes");
-	Shader SkyboxShader("/Shaders/Skybox.vs", "/Shaders/Skybox.fs");
+	//Shader SkyboxShader("/Shaders/Skybox.vs", "/Shaders/Skybox.fs");
 
 	//Load Terrain Textures
 	Texture meadowDiffuse("/Resources/meadowDiffuse.png", GL_REPEAT, GL_LINEAR);
@@ -83,10 +84,19 @@ int main()
 	Terrain terr(256, 256);
 	terr.GenerateVertices();
 
+	terrainShader.use();
+	terrainShader.SetInteger("meadowDiffuse", meadowDiffuse.index);
+	terrainShader.SetInteger("meadowHeight", meadowHeight.index);
+	terrainShader.SetInteger("meadowNormal", meadowNormal.index);
+	terrainShader.SetInteger("sandDiffuse", sandDiffuse.index);
+	terrainShader.SetInteger("sandHeight", sandHeight.index);
+	terrainShader.SetInteger("sandNormal", sandNormal.index);
+	terrainShader.SetInteger("noiseMap", terr.map.noisetexture.index);
+
 	GLuint terrainId = glGetUniformBlockIndex(terrainShader.shad, "Matrices");
-	GLuint shadowId = glGetUniformBlockIndex(shadowShader.shad, "Matrices");
+	//GLuint shadowId = glGetUniformBlockIndex(shadowShader.shad, "Matrices");
 	glUniformBlockBinding(terrainShader.shad, terrainId, 0);
-	glUniformBlockBinding(shadowShader.shad, shadowId, 0);
+	//glUniformBlockBinding(shadowShader.shad, shadowId, 0);
 
 	UniformData data;
 	data.proj = glm::perspective(cam.zoom, (float)WIDTH / (float)HEIGHT, 0.1f, 100.0f);
@@ -95,6 +105,8 @@ int main()
 	UploadToUniformBuffer(ubo, 0, data.proj);
 
 	glm::vec3 lightDir;
+	lightDir = glm::vec3(-1, 0, 0);
+	std::cout << sandNormal.index << std::endl;
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -113,14 +125,14 @@ int main()
 		UploadToUniformBuffer(ubo, sizeof(glm::mat4) * 3, data.mvp);
 
 		//Bind Textures
+		terrainShader.use();
 		meadowDiffuse.BindTexture();
 		meadowHeight.BindTexture();
 		meadowNormal.BindTexture();
 		sandDiffuse.BindTexture();
 		sandHeight.BindTexture();
 		sandNormal.BindTexture();
-
-		terrainShader.use();
+		terr.BindFBM();
 		//Draw Terrain
 		terr.Draw();
 
