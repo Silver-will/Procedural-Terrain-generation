@@ -31,7 +31,6 @@ float FBM::Grad(int hash, float x, float y) { return ((hash & 1) == 0 ? x : -x) 
 
 void FBM::GenerateNoiseMap()
 {
-    
     if (noise1.scale <= 0.0f || noise2.scale <= 0.0f)
     {
         noise1.scale = 0.1f;
@@ -113,12 +112,13 @@ float FBM::Fbm(float x, float y, int& octaves, std::vector<glm::vec2>& octaveOff
 
 void FBM::CreateNoiseTexture()
 {
-    noisetexture.CreateTexture(noiseWidth, noiseHeight, noiseMapValues.data(), GL_RGBA, GL_REPEAT, GL_LINEAR);
+    noisetexture.CreateTexture(noiseWidth, noiseHeight, noiseMapValues.data(), GL_RED, GL_REPEAT, GL_LINEAR);
+    //UpdateNoiseTexture();
 }
 
 void FBM::UpdateNoiseTexture()
 {
-    noisetexture.UpdateTexture(noiseMapValues.data());
+    noisetexture.UpdateTexture(noiseMapValues.data(),GL_FLOAT);
 }
 
 bool FBM::ValueChanged()

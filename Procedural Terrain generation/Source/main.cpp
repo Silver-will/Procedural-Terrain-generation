@@ -34,8 +34,6 @@ int main()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_SAMPLES, 4);
 
-	
-
 	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Terr 3D", NULL, NULL);
 	if (window == nullptr)
 	{
@@ -106,7 +104,6 @@ int main()
 
 	glm::vec3 lightDir;
 	lightDir = glm::vec3(-1, 0, 0);
-	std::cout << sandNormal.index << std::endl;
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -126,6 +123,7 @@ int main()
 
 		//Bind Textures
 		terrainShader.use();
+
 		meadowDiffuse.BindTexture();
 		meadowHeight.BindTexture();
 		meadowNormal.BindTexture();

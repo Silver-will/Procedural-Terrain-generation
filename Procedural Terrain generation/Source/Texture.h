@@ -13,8 +13,8 @@ struct Texture
 	//Create empty texture in memory
 	Texture(int width,int height,void* data, GLenum format, GLenum wrapping, GLenum sampleFilter);
 	//Update texture data
-	void CreateTexture(int width, int height, void* data, GLenum format, GLenum wrapping, GLenum sampleFilter);
-	void UpdateTexture(void* data);
+	void CreateTexture(int width, int height, float* data, GLenum format, GLenum wrapping, GLenum sampleFilter);
+	void UpdateTexture(void* data, GLenum dataFormat);
 	void BindTexture();
 	
 	static GLuint Totalindex;

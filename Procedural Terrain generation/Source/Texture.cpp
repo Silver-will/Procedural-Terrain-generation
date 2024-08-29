@@ -35,7 +35,7 @@ Texture::Texture(std::string texturePath, GLenum wrapping, GLenum sampleFilter):
 		}
 		this->format = Imgformat;
 
-		glBindTexture(this->TexID, GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, this->TexID);
 		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, Imgformat, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 
@@ -49,7 +49,7 @@ Texture::Texture(std::string texturePath, GLenum wrapping, GLenum sampleFilter):
 		Log("Failed to load texture data");
 	}
 	stbi_image_free(data);
-	glBindTexture(0, GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D,0);
 	Totalindex++;
 }
 
@@ -59,8 +59,8 @@ Texture::Texture(int width, int height, void* data, GLenum format, GLenum wrappi
 	this->height = height;
 	this->format = format;
 
-	glGenTextures(1, &this->TexID);
-	glBindTexture(this->TexID, GL_TEXTURE_2D);
+	glGenTextures(1, &TexID);
+	glBindTexture(GL_TEXTURE_2D,TexID);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 	glGenerateMipmap(GL_TEXTURE_2D);
@@ -69,32 +69,32 @@ Texture::Texture(int width, int height, void* data, GLenum format, GLenum wrappi
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapping);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, sampleFilter);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, sampleFilter);
-
 	Totalindex++;
 }
 
-void Texture::CreateTexture(int width, int height, void* data, GLenum format, GLenum wrapping, GLenum sampleFilter)
+void Texture::CreateTexture(int width, int height, float* data, GLenum format, GLenum wrapping, GLenum sampleFilter)
 {
 	this->width = width;
 	this->height = height;
 	this->format = format;
 
 	glGenTextures(1, &this->TexID);
-	glBindTexture(this->TexID, GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, this->TexID);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapping);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapping);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, sampleFilter);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, sampleFilter);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-	glGenerateMipmap(GL_TEXTURE_2D);
-	glBindTexture(0, GL_TEXTURE_2D);
+	//Textures are created as floats
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_R32F, width, height, 0, format, GL_FLOAT, data);
+	//glGenerateMipmap(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
-void Texture::UpdateTexture(void* data)
+void Texture::UpdateTexture(void* data, GLenum dataFormat)
 {
 	//glBindTexture(this->TexID, GL_TEXTURE_2D);
-	glTextureSubImage2D(this->TexID, 0, 0, 0, width, height, format, GL_UNSIGNED_BYTE, data);
+	glTextureSubImage2D(this->TexID, 0, 0, 0, width, height, format, dataFormat, data);
 	//glBindTexture(0, GL_TEXTURE_2D);
 }
 

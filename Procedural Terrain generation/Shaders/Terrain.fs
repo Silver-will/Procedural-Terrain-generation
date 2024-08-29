@@ -25,13 +25,13 @@ in TES_OUT
 vec3 CalcSlopeNormal(vec2 texCoord)
 {   
 	float textureDelta = 1/256.0;
-
-	float left = textureOffset(noiseMap, texCoord, ivec2(-1,0)).r;
-	float right = textureOffset(noiseMap, texCoord, ivec2(1,0)).r;
-	float up = textureOffset(noiseMap, texCoord, ivec2(0,1)).r;
-	float down = textureOffset(noiseMap, texCoord, ivec2(0,-1)).r;
 	
-	vec3 normal = vec3(left - right, 2, up - down );
+	float left = texture(noiseMap, texCoord + vec2(-textureDelta,0)).r;
+	float right = texture(noiseMap, texCoord + vec2(textureDelta,0)).r;
+	float up = texture(noiseMap, texCoord + vec2(0,textureDelta)).r;
+	float down = texture(noiseMap, texCoord + vec2(0,-textureDelta)).r;
+	
+	vec3 normal = normalize(vec3(left - right,textureDelta * 2, up - down));
 	return normalize(normal);
 }
 
@@ -39,12 +39,12 @@ vec3 CalcNormal(vec2 texCoord)
 {   
 	int textureDelta = 1;
 
-	float left = textureOffset(noiseMap, texCoord, ivec2(-1,0)).r;
-	float right = textureOffset(noiseMap, texCoord, ivec2(1,0)).r;
-	float up = textureOffset(noiseMap, texCoord, ivec2(0,1)).r;
-	float down = textureOffset(noiseMap, texCoord, ivec2(0,-1)).r;
+	float left = textureOffset(noiseMap, texCoord,  ivec2(-1,0)).r;
+	float right = textureOffset(noiseMap,texCoord,  ivec2(1,0)).r;
+	float up = textureOffset(noiseMap,   texCoord,  ivec2(0,1)).r;
+	float down = textureOffset(noiseMap, texCoord,  ivec2(0,-1)).r;
 	
-	vec3 normal = vec3(left - right, 2, up - down );
+	vec3 normal = vec3(left - right, 2.0, up - down);
 	return normalize(normal);
 }
 
@@ -140,7 +140,7 @@ float ShadowCalc(vec4 fragLight, vec3 normal, vec3 lightDir)
 
 void main()
 {
-	vec3 N = CalcNormal(tes_in.texCoord);
+	vec3 N = CalcSlopeNormal(tes_in.texCoord);
 	float slope = 1.0f - N.y;
 
 	vec3 color = GetDiffuse(tes_in.fragPos.xyz,tes_in.height,N,tes_in.texCoord,slope);
@@ -170,4 +170,7 @@ void main()
 	//float3 col = float3(ambient + shadow * (diffuse + specular)) * color;
 	vec3 col = vec3(ambient + diffuse + shadow) * color;
 	FragColor = vec4(col.xyz, 1.0f);
+	//FragColor = texture(meadowDiffuse, tes_in.texCoord * 32.0f);
+	FragColor *= 15.0f;
+	FragColor = vec4(N.xyz,1.0f);
 }
