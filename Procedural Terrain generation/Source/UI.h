@@ -4,7 +4,10 @@
 #include"../External/imgui/imgui_impl_opengl3.h"
 #include"../External/imgui/imgui_impl_glfw.h"
 #include "General_utility.h"
-void SetupUI(bool* p_open);
+
+class Terrain;
+
+void SetupUI(bool* p_open, Terrain& map);
 //opens a native file explorer context to enable anyone to load models
 std::string GetPathFromFileDialog();
 static void HelpMarker(const char* desc);

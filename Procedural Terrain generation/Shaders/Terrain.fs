@@ -172,5 +172,5 @@ void main()
 	FragColor = vec4(col.xyz, 1.0f);
 	//FragColor = texture(meadowDiffuse, tes_in.texCoord * 32.0f);
 	FragColor *= 15.0f;
-	FragColor = vec4(N.xyz,1.0f);
+	//FragColor = vec4(N.xyz,1.0f);
 }

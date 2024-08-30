@@ -8,7 +8,7 @@ struct NoiseParams
     }
     NoiseParams() {};
     int    octaves = 3;
-    int seed = 2;
+    int    seed = 2;
     float  scale = 19.1f;
     float  persistence = 2.9f;
     float  lacunarity = 0.45f;

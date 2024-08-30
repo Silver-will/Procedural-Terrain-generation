@@ -1,32 +1,68 @@
 #include<vector>
 #include"UI.h"
+#include "Terrain.h"
 #include"Shadow.h"
-//#include"Lights.h"
-//#include<nfd/include/nfd.h>
+
 using namespace std::literals::string_literals;
-//using namespace Light_values;
 
 //directly read display and edit lighting values
 void setLights(glm::vec3& lightValues);
 
-void SetupUI(bool* p_open)
+void SetupUI(bool* p_open, Terrain& terrain)
 {
-    static bool openNew = false;
-    static bool openDefault = false;
-    static bool reset = false;
-    static bool close = false;
-    static bool phong = false;
-    static bool pbr = false;
     ImGuiWindowFlags window_flags = 0;
-    
+
     const ImGuiViewport* main_viewport = ImGui::GetMainViewport();
     ImGui::SetNextWindowPos(ImVec2(main_viewport->WorkPos.x, main_viewport->WorkPos.y + 20), ImGuiCond_FirstUseEver);
-    ImGui::SetNextWindowSize(ImVec2(700, main_viewport->WorkSize.y - 20), ImGuiCond_FirstUseEver);
-    if (!ImGui::Begin("Procedural Terrain simulator", p_open, window_flags))
+    ImGui::SetNextWindowSize(ImVec2(300, main_viewport->WorkSize.y - main_viewport->WorkSize.y/2.0f), ImGuiCond_FirstUseEver);
+    if (!ImGui::Begin("Procedural terrain demo", p_open, window_flags))
     {
         ImGui::End();
         return;
     }
+
+    if (ImGui::CollapsingHeader("FBMs"))
+    {
+        if (ImGui::TreeNode("Noise Texture 1"))
+        {
+            GLfloat offset[2] = { terrain.map.noise1._offset.r,terrain.map.noise1._offset.g };
+            ImGui::SliderInt("Octaves", &terrain.map.noise1.octaves, 1, 8);
+            ImGui::SliderFloat("Persistence", &terrain.map.noise1.scale, 0.0001, 10.0f);
+            ImGui::SliderFloat("Lacunarity", &terrain.map.noise1.scale, 0.0001, 10.0f);
+            ImGui::SliderFloat2("Offset", offset, -100.0f, 100.0f);
+            ImGui::SliderInt("Seed", &terrain.map.noise1.seed, 1, 8);
+            ImGui::SliderFloat("Scale", &terrain.map.noise1.scale, 0.0, 50.0f);
+            terrain.map.noise1._offset = glm::vec2(offset[0], offset[1]);
+            ImGui::TreePop();
+        }
+
+        if (ImGui::TreeNode("Noise Texture 2"))
+        {
+            GLfloat offset[2] = { terrain.map.noise2._offset.r,terrain.map.noise2._offset.g };
+            ImGui::SliderInt("Octaves", &terrain.map.noise2.octaves, 1, 8);
+            ImGui::SliderFloat("Persistence", &terrain.map.noise2.scale, 0.0001, 10.0f);
+            ImGui::SliderFloat("Lacunarity", &terrain.map.noise2.scale, 0.0001, 10.0f);
+            ImGui::SliderFloat2("Offset", offset, -100.0f, 100.0f);
+            ImGui::SliderInt("Seed", &terrain.map.noise2.seed, 1, 8);
+            ImGui::SliderFloat("Scale", &terrain.map.noise2.scale, 0.0, 50.0f);
+            terrain.map.noise2._offset = glm::vec2(offset[0], offset[1]);
+            ImGui::TreePop();
+        }
+    }
+    if (ImGui::CollapsingHeader("Erosion"))
+    {
+        ImGui::SliderFloat("Inertia", &terrain.erosion.inertia, .1f,3.0f);
+        ImGui::SliderFloat("Sediment capacity", &terrain.erosion.sedimentCapacityFactor, .1f, 7.0f);
+        ImGui::SliderFloat("Min sediment capacity", &terrain.erosion.minSedimentCapacity, .001f, 3.0f);
+        ImGui::SliderFloat("Deposit speed", &terrain.erosion.depositSpeed, .1f, 3.0f);
+        ImGui::SliderFloat("Erode speed", &terrain.erosion.erodeSpeed, .1f, 3.0f);
+        ImGui::SliderFloat("Evaporate speed", &terrain.erosion.evaportateSpeed, .001f, 1.0f);
+        ImGui::SliderFloat("Gravity", &terrain.erosion.gravity, .1f, 8.0f);
+        ImGui::SliderFloat("Start speed", &terrain.erosion.startSpeed, .1f, 3.0f);
+        ImGui::SliderFloat("Start water", &terrain.erosion.startWater, .1f, 3.0f);
+    }
+
+    ImGui::End();
 
     /*if (ImGui::BeginMainMenuBar())
     {

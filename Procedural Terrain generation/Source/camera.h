@@ -6,7 +6,7 @@
 struct Camera
 {
 	Camera();
-	void ProcessInput(GLFWwindow* window);
+	void ProcessInput(GLFWwindow* window, int action, int key);
 	void ProcessOffset(GLfloat xPos, GLfloat yPos);
 	void SetTarget(glm::vec3 direction);
 	void UpdateCameraVector();

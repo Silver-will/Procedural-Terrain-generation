@@ -125,9 +125,9 @@ bool FBM::ValueChanged()
 {
     if (noise1 != noise1_prev || noise2 != noise2_prev)
     {
-        return true;
         noise1_prev = noise1;
         noise2_prev = noise2;
+        return true;
     }
     return false;
 }

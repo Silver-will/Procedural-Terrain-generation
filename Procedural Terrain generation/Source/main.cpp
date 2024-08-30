@@ -45,8 +45,8 @@ int main()
 	glfwMakeContextCurrent(window);
 	glfwSetFramebufferSizeCallback(window, FramebufferSizeCallback);
 	glfwSetCursorPosCallback(window, CursorPosCallback);
+	glfwSetKeyCallback(window, KeyCallback);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -107,7 +107,9 @@ int main()
 
 	while (!glfwWindowShouldClose(window))
 	{
-		ProcessInput(window);
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
 
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -134,15 +136,14 @@ int main()
 		//Draw Terrain
 		terr.Draw();
 
+
+		SetupUI(&showWindow,terr);
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
-}
-
-
-void ProcessInput(GLFWwindow* window)
-{
-	cam.ProcessInput(window);
 }
 
 void FramebufferSizeCallback(GLFWwindow* window, int width, int height)
@@ -168,4 +169,10 @@ void ShadowPass()
 void DrawTerrain()
 {
 
+}
+
+
+void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int modifiers)
+{
+	cam.ProcessInput(window, action, key);
 }

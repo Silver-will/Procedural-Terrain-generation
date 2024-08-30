@@ -59,6 +59,7 @@ void Terrain::Draw()
 {
     glBindVertexArray(terrainVao);
     glDrawArrays(GL_PATCHES, 0, NUM_PATCH_PTS * patchCount * patchCount);
+    Update();
 }
 
 void Terrain::Update()
@@ -67,6 +68,8 @@ void Terrain::Update()
     {
         map.GenerateNoiseMap();
         map.UpdateNoiseTexture();
+
+        
     }
 }
 

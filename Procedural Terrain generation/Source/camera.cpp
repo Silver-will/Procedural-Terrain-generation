@@ -10,12 +10,49 @@ Camera::Camera()
 	zoom = 45.0f;
 }
 
-void Camera::ProcessInput(GLFWwindow* window)
+void Camera::ProcessInput(GLFWwindow* window,int action, int key)
 {
 	currentFrame = glfwGetTime();
 	deltaTime = currentFrame - lastFrame;
 	lastFrame = currentFrame;
 	GLfloat speed = 2.5f * deltaTime;
+
+	if (action == GLFW_PRESS)
+	{
+		if (key == GLFW_KEY_A || key == GLFW_KEY_LEFT)
+		{
+			cameraPos -= speed * Right;
+		}
+		if (key == GLFW_KEY_D || key == GLFW_KEY_RIGHT)
+		{
+			cameraPos += speed * Right;
+		}
+		if (key == GLFW_KEY_W || key == GLFW_KEY_UP)
+		{
+			cameraPos += cameraTarget * speed;
+		}
+		if (key == GLFW_KEY_S || key == GLFW_KEY_DOWN)
+		{
+			cameraPos -= cameraTarget * speed;
+		}
+	}
+
+	static bool cursor_locked = true;
+
+	if (action == GLFW_RELEASE)
+	{
+		if (key == GLFW_KEY_C && cursor_locked)
+		{
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			cursor_locked = false;
+		}
+		else if (key == GLFW_KEY_C)
+		{
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			cursor_locked = true;
+		}
+	}
+
 	if (glfwGetKey(window, GLFW_KEY_A) || glfwGetKey(window, GLFW_KEY_LEFT))
 	{
 		cameraPos -= speed * Right;
