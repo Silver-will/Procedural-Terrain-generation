@@ -3,6 +3,7 @@
 #include <vector>
 #include "Shader.h"
 #include "FBM.h"
+#include <array>
 
 struct ErosionParams {
 	uint32_t  mapSize = 256;
@@ -18,6 +19,13 @@ struct ErosionParams {
 	float gravity = 4;
 	float startSpeed = 1;
 	float startWater = 1;
+};
+
+struct ErosionBuffer{
+	std::array<float, 7> brush_indices;
+	std::array<float, 7> brush_weights;
+	std::array<float, 256 * 256> map;
+	std::vector<int> random_indices;
 };
 
 struct Terrain

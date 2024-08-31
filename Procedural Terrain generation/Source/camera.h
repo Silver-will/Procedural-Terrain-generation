@@ -8,6 +8,7 @@ struct Camera
 	Camera();
 	void ProcessInput(GLFWwindow* window, int action, int key);
 	void ProcessOffset(GLfloat xPos, GLfloat yPos);
+	void MoveCamera(GLFWwindow* window);
 	void SetTarget(glm::vec3 direction);
 	void UpdateCameraVector();
 	glm::mat4 GetView();
@@ -32,5 +33,6 @@ private:
 	GLfloat cameraFarPlane{ 500.0f };
 	GLfloat yaw = -90.0f, pitch = 0.0f, sensitivity = 0.1f, lastX{}, lastY{}, xOffset{}, yOffset{};
 	bool fMouse = true;
+	bool cursor_locked = true;
 };
 #endif

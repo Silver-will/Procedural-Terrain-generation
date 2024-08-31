@@ -8,6 +8,7 @@
 #include "Terrain.h"
 #include "Texture.h"
 #include "Math.h"
+#include "General_utility.h"
 #include "Buffer.h"
 
 void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
@@ -97,7 +98,7 @@ int main()
 	//glUniformBlockBinding(shadowShader.shad, shadowId, 0);
 
 	UniformData data;
-	data.proj = glm::perspective(cam.zoom, (float)WIDTH / (float)HEIGHT, 0.1f, 100.0f);
+	data.proj = glm::perspective(cam.zoom, (float)WIDTH / (float)HEIGHT, 0.1f, 1000.0f);
 	GLuint ubo{};
 	CreateUniformBuffer(ubo,sizeof(UniformData));
 	UploadToUniformBuffer(ubo, 0, data.proj);
@@ -111,6 +112,7 @@ int main()
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
+		cam.MoveCamera(window);
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

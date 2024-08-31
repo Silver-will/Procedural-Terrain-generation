@@ -27,8 +27,8 @@ void SetupUI(bool* p_open, Terrain& terrain)
         {
             GLfloat offset[2] = { terrain.map.noise1._offset.r,terrain.map.noise1._offset.g };
             ImGui::SliderInt("Octaves", &terrain.map.noise1.octaves, 1, 8);
-            ImGui::SliderFloat("Persistence", &terrain.map.noise1.scale, 0.0001, 10.0f);
-            ImGui::SliderFloat("Lacunarity", &terrain.map.noise1.scale, 0.0001, 10.0f);
+            ImGui::SliderFloat("Persistence", &terrain.map.noise1.persistence, 0.0001, 2.5f);
+            ImGui::SliderFloat("Lacunarity", &terrain.map.noise1.lacunarity, 0.0001, 2.5f);
             ImGui::SliderFloat2("Offset", offset, -100.0f, 100.0f);
             ImGui::SliderInt("Seed", &terrain.map.noise1.seed, 1, 8);
             ImGui::SliderFloat("Scale", &terrain.map.noise1.scale, 0.0, 50.0f);
@@ -40,8 +40,8 @@ void SetupUI(bool* p_open, Terrain& terrain)
         {
             GLfloat offset[2] = { terrain.map.noise2._offset.r,terrain.map.noise2._offset.g };
             ImGui::SliderInt("Octaves", &terrain.map.noise2.octaves, 1, 8);
-            ImGui::SliderFloat("Persistence", &terrain.map.noise2.scale, 0.0001, 10.0f);
-            ImGui::SliderFloat("Lacunarity", &terrain.map.noise2.scale, 0.0001, 10.0f);
+            ImGui::SliderFloat("Persistence", &terrain.map.noise2.persistence, 0.0001, 10.0f);
+            ImGui::SliderFloat("Lacunarity", &terrain.map.noise2.lacunarity, 0.0001, 10.0f);
             ImGui::SliderFloat2("Offset", offset, -100.0f, 100.0f);
             ImGui::SliderInt("Seed", &terrain.map.noise2.seed, 1, 8);
             ImGui::SliderFloat("Scale", &terrain.map.noise2.scale, 0.0, 50.0f);
