@@ -66,7 +66,7 @@ int main()
 	glEnable(GL_MULTISAMPLE);
 
 	//Load Shaders
-	//Shader shadowShader("/Shaders/Shadow.vs", "/Shaders/Shadow.fs", "", "/Shaders/Shadow.tcs", "/Shaders/Shadow.tes");
+	Shader shadowShader("/Shaders/Shadow.vs", "/Shaders/Shadow.fs", "", "/Shaders/Shadow.tcs", "/Shaders/Shadow.tes");
 	//Shader erosionShader("../Shaders/Erosion.comp");
 	Shader terrainShader("/Shaders/Terrain.vs", "/Shaders/Terrain.fs", "", "/Shaders/Terrain.tcs", "/Shaders/Terrain.tes");
 	//Shader SkyboxShader("/Shaders/Skybox.vs", "/Shaders/Skybox.fs");
@@ -103,9 +103,6 @@ int main()
 	CreateUniformBuffer(ubo,sizeof(UniformData));
 	UploadToUniformBuffer(ubo, 0, data.proj);
 
-	glm::vec3 lightDir;
-	lightDir = glm::vec3(-1, 0, 0);
-
 	while (!glfwWindowShouldClose(window))
 	{
 		ImGui_ImplOpenGL3_NewFrame();
@@ -117,6 +114,7 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		data.model = glm::mat4(1.0f);
+		data.model = glm::scale(data.model, glm::vec3(0.01));
 		UploadToUniformBuffer(ubo, sizeof(glm::mat4), data.model);
 
 		data.view = cam.GetView();
@@ -124,6 +122,9 @@ int main()
 
 		data.mvp = data.proj * data.view * data.model;
 		UploadToUniformBuffer(ubo, sizeof(glm::mat4) * 3, data.mvp);
+
+		//Set cameraPosition
+		terr.direct.cameraPos = cam.GetPos();
 
 		//Bind Textures
 		terrainShader.use();
@@ -136,12 +137,16 @@ int main()
 		sandNormal.BindTexture();
 		terr.BindFBM();
 		//Draw Terrain
-		terr.Draw();
+		terr.Draw(terrainShader);
 
 
 		SetupUI(&showWindow,terr);
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+		int w, h;
+		glfwGetWindowSize(window, &w, &h);
+		data.proj = glm::perspective(cam.zoom, (float)w / (float)h, 0.1f, 1000.0f);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -163,7 +168,7 @@ void DrawSkyBox()
 
 }
 
-void ShadowPass()
+void ShadowPass(Shader& shad)
 {
 
 }

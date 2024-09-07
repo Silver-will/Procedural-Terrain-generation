@@ -1,5 +1,18 @@
 #include "Terrain.h"
 #include <iostream>
+
+Terrain::Terrain(int width, int height) :map(width, height)
+{
+    minDistance = 20;
+    maxDistance = 800;
+
+    minTess = 4;
+    maxTess = 64;
+
+    this->height = 5.0f;
+}
+
+
 void Terrain::GenerateVertices()
 {
     std::cout << map.noiseWidth << std::endl;
@@ -55,21 +68,20 @@ void Terrain::SetPatchCount(int patch)
     patchCount = patch;
 }
 
-void Terrain::Draw()
+void Terrain::Draw(Shader& shader)
 {
+    Update(shader);
     glBindVertexArray(terrainVao);
     glDrawArrays(GL_PATCHES, 0, NUM_PATCH_PTS * patchCount * patchCount);
-    Update();
 }
 
-void Terrain::Update()
+void Terrain::Update(Shader& shader)
 {
+    UpdateValues(shader);
     if (map.ValueChanged())
     {
         map.GenerateNoiseMap();
         map.UpdateNoiseTexture();
-
-        
     }
 }
 
@@ -82,4 +94,14 @@ void Terrain::Cleanup()
 void Terrain::BindFBM()
 {
     map.noisetexture.BindTexture();
+}
+
+void Terrain::UpdateValues(Shader& shad)
+{
+    //Update tessellation values
+    shad.SetVector2f("distance", glm::vec2(minDistance, maxDistance), false);
+    shad.SetVector2f("tess_level", glm::vec2(minTess, maxTess), false);
+    shad.SetFloat("height", height, false);
+    //Update lighting values too
+    direct.UploadLightValues(shad);
 }

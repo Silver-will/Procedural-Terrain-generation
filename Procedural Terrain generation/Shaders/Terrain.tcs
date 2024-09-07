@@ -20,6 +20,10 @@ out TCS_OUT
 
 in vec2 TexCoord[];
 
+
+uniform vec2 tess_level;
+uniform vec2 distance;
+
 void main()
 {
     gl_out[gl_InvocationID].gl_Position = gl_in[gl_InvocationID].gl_Position;
@@ -30,10 +34,10 @@ void main()
 
     if(gl_InvocationID == 0)
     {
-        const int MIN_TESS_LEVEL = 4;
-        const int MAX_TESS_LEVEL = 64;
-        const float MIN_DISTANCE = 20;
-        const float MAX_DISTANCE = 800;
+        const int MIN_TESS_LEVEL = int(tess_level.x);
+        const int MAX_TESS_LEVEL = int(tess_level.y);
+        const float MIN_DISTANCE = distance.x;
+        const float MAX_DISTANCE = distance.y;
 
         vec4 eyeSpacePos00 = view * model * gl_in[0].gl_Position;
         vec4 eyeSpacePos01 = view * model * gl_in[1].gl_Position;

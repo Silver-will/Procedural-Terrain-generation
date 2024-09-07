@@ -3,6 +3,7 @@
 #include <vector>
 #include "Shader.h"
 #include "FBM.h"
+#include "Lighting.h"
 #include <array>
 
 struct ErosionParams {
@@ -30,15 +31,20 @@ struct ErosionBuffer{
 
 struct Terrain
 {
-	Terrain(int width, int height):map(width, height) {};
+	Terrain(int width, int height);
 	void GenerateVertices();
-	void Draw();
+	void Draw(Shader& shader);
 	void SetPatchCount(int patch);
-	void Update();
+	void UpdateValues(Shader& shad);
+	void Update(Shader& shader);
 	void BindFBM();
 	void Cleanup();
 	FBM map;
 	ErosionParams erosion;
+	Lighting direct;
+	float maxTess, minTess;
+	float maxDistance, minDistance;
+	float height;
 
 private:
 	

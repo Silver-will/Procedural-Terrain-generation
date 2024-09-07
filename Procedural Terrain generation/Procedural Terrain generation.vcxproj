@@ -32,6 +32,7 @@
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\FBM.cpp" />
     <ClCompile Include="Source\General_utility.cpp" />
+    <ClCompile Include="Source\Lighting.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Shader.cpp" />
     <ClCompile Include="Source\Shadow.cpp" />
@@ -56,6 +57,7 @@
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\FBM.h" />
     <ClInclude Include="Source\General_utility.h" />
+    <ClInclude Include="Source\Lighting.h" />
     <ClInclude Include="Source\Math.h" />
     <ClInclude Include="Source\Noise.h" />
     <ClInclude Include="Source\Shader.h" />

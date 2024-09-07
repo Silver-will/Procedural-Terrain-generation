@@ -19,8 +19,7 @@ in TCS_OUT
     vec2 texCoord;
 }tcs_in[];
 
-uniform vec4 outer;
-uniform vec2 inner;
+uniform float height;
 
 void main()
 {
@@ -37,7 +36,7 @@ void main()
     vec2 tex = (t1 - t0) * v + t0;
     
     tes_out.texCoord = tex;
-    tes_out.height = texture(noiseMap, tex).r * 64.0 - 16.0f;
+    tes_out.height = texture(noiseMap, tex).r * height - 16.0f;
 
     vec4 p00 = gl_in[0].gl_Position;
     vec4 p01 = gl_in[1].gl_Position;

@@ -20,6 +20,34 @@ void SetupUI(bool* p_open, Terrain& terrain)
         ImGui::End();
         return;
     }
+    if (ImGui::CollapsingHeader("World"))
+    {
+        if (ImGui::TreeNode("Lighting"))
+        {
+            static GLfloat dir[3] = { terrain.direct.lightDir.x, terrain.direct.lightDir.y, terrain.direct.lightDir.z };
+            static GLfloat col[3] = { terrain.direct.lightCol.x, terrain.direct.lightCol.y, terrain.direct.lightCol.z };
+
+            ImGui::InputFloat3("Direction", dir);
+            ImGui::ColorPicker3("light colour", col);
+            terrain.direct.lightDir = glm::vec3(dir[0], dir[1], dir[2]);
+            terrain.direct.lightCol = glm::vec3(col[0], col[1], col[2]);
+            ImGui::TreePop();
+        }
+
+        if (ImGui::TreeNode("Tessellation values"))
+        {
+            ImGui::InputFloat("Max Tess", &terrain.maxTess);
+            ImGui::InputFloat("Min Tess", &terrain.minTess);
+
+            ImGui::Spacing();
+            ImGui::InputFloat("Max Distance", &terrain.maxDistance);
+            ImGui::InputFloat("Min Distance", &terrain.minDistance);
+
+            ImGui::Spacing();
+            ImGui::SliderFloat("height",&terrain.height, 0.1f, 120.0f);
+            ImGui::TreePop();
+        }
+    }
 
     if (ImGui::CollapsingHeader("FBMs"))
     {

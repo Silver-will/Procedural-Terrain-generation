@@ -167,10 +167,8 @@ void main()
 	vec3 specular = lightSpec * spec * 0.0001;
 	float shadow = ShadowCalc(tes_in.fragPosLightSpace, N, lightDir);
 
-	//float3 col = float3(ambient + shadow * (diffuse + specular)) * color;
-	vec3 col = vec3(ambient + diffuse + shadow) * color;
+	vec3 col = vec3(ambient + diffuse + specular) * color;
+	
+	col = pow(col, vec3(1.0/2.2));
 	FragColor = vec4(col.xyz, 1.0f);
-	//FragColor = texture(meadowDiffuse, tes_in.texCoord * 32.0f);
-	FragColor *= 15.0f;
-	//FragColor = vec4(N.xyz,1.0f);
 }
