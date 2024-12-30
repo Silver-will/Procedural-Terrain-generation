@@ -72,7 +72,7 @@ Texture::Texture(int width, int height, void* data, GLenum format, GLenum wrappi
 	Totalindex++;
 }
 
-void Texture::CreateTexture(int width, int height, float* data, GLenum format, GLenum wrapping, GLenum sampleFilter)
+void Texture::CreateTexture(int width, int height, GLenum internalFormat, GLenum format, GLenum wrapping, GLenum sampleFilter,float* data)
 {
 	this->width = width;
 	this->height = height;
@@ -87,7 +87,7 @@ void Texture::CreateTexture(int width, int height, float* data, GLenum format, G
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, sampleFilter);
 
 	//Textures are created as floats
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_R32F, width, height, 0, format, GL_FLOAT, data);
+	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, GL_FLOAT, data);
 	//glGenerateMipmap(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }

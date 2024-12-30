@@ -18,4 +18,5 @@ void UploadToUniformBuffer(GLuint& id, GLuint bufferOffset, t& data)
 	glBufferSubData(GL_UNIFORM_BUFFER, bufferOffset, sizeof(data), glm::value_ptr(data));
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
+void CreateDepthBuffer(GLuint& depthMap, int width, int height);
 #endif

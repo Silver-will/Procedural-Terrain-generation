@@ -21,7 +21,7 @@ float FBM::Noise2(float x, float y)
 
 FBM::FBM(int width, int height): noiseWidth{width}, noiseHeight{height}
 { 
-    noiseMapValues.resize(256 * 256);
+    noiseMapValues.resize(width * height);
     GenerateNoiseMap();
     CreateNoiseTexture();
 }
@@ -112,7 +112,7 @@ float FBM::Fbm(float x, float y, int& octaves, std::vector<glm::vec2>& octaveOff
 
 void FBM::CreateNoiseTexture()
 {
-    noisetexture.CreateTexture(noiseWidth, noiseHeight, noiseMapValues.data(), GL_RED, GL_REPEAT, GL_LINEAR);
+    noisetexture.CreateTexture(noiseWidth, noiseHeight,GL_RED, GL_RED, GL_REPEAT, GL_LINEAR, noiseMapValues.data());
     //UpdateNoiseTexture();
 }
 

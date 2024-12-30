@@ -15,32 +15,31 @@ Terrain::Terrain(int width, int height) :map(width, height)
 
 void Terrain::GenerateVertices()
 {
-    std::cout << map.noiseWidth << std::endl;
     for (int i = 0; i <= patchCount - 1; i++)
     {
         for (int j = 0; j <= patchCount - 1; j++)
         {
-            vertices.push_back(-map.noiseWidth / 2.0f + map.noiseWidth * i / (float)patchCount); 
+            vertices.push_back(( - map.noiseWidth / 2.0f + map.noiseWidth * i / (float)patchCount)/10.0f);
             vertices.push_back(0.0f); 
-            vertices.push_back(-map.noiseHeight / 2.0f + map.noiseHeight * j / (float)patchCount); 
+            vertices.push_back((-map.noiseHeight / 2.0f + map.noiseHeight * j / (float)patchCount) / 10.0f);
             vertices.push_back(i / (float)patchCount); 
             vertices.push_back(j / (float)patchCount); 
 
-            vertices.push_back(-map.noiseWidth / 2.0f + map.noiseWidth * (i + 1) / (float)patchCount);
+            vertices.push_back((-map.noiseWidth / 2.0f + map.noiseWidth * (i + 1) / (float)patchCount) / 10.0f);
             vertices.push_back(0.0f);
-            vertices.push_back(-map.noiseHeight / 2.0f + map.noiseHeight * j / (float)patchCount); 
+            vertices.push_back((-map.noiseHeight / 2.0f + map.noiseHeight * j / (float)patchCount) / 10.0f);
             vertices.push_back((i + 1) / (float)patchCount); 
             vertices.push_back(j / (float)patchCount); 
 
-            vertices.push_back(-map.noiseWidth / 2.0f + map.noiseWidth * i / (float)patchCount); 
+            vertices.push_back((-map.noiseWidth / 2.0f + map.noiseWidth * i / (float)patchCount) / 10.0f);
             vertices.push_back(0.0f); // v.y
-            vertices.push_back(-map.noiseHeight / 2.0f + map.noiseHeight * (j + 1) / (float)patchCount);
+            vertices.push_back((-map.noiseHeight / 2.0f + map.noiseHeight * (j + 1) / (float)patchCount) / 10.0f);
             vertices.push_back(i / (float)patchCount); // u
             vertices.push_back((j + 1) / (float)patchCount); // v
 
-            vertices.push_back(-map.noiseWidth / 2.0f + map.noiseWidth * (i + 1) / (float)patchCount); // v.x
+            vertices.push_back((-map.noiseWidth / 2.0f + map.noiseWidth * (i + 1) / (float)patchCount) / 10.0f); // v.x
             vertices.push_back(0.0f); // v.y
-            vertices.push_back(-map.noiseHeight / 2.0f + map.noiseHeight * (j + 1) / (float)patchCount); // v.z
+            vertices.push_back(( - map.noiseHeight / 2.0f + map.noiseHeight * (j + 1) / (float)patchCount) / 10.0f); // v.z
             vertices.push_back((i + 1) / (float)patchCount); // u
             vertices.push_back((j + 1) / (float)patchCount); // v
         }

@@ -69,7 +69,7 @@ int main()
 	Shader shadowShader("/Shaders/Shadow.vs", "/Shaders/Shadow.fs", "", "/Shaders/Shadow.tcs", "/Shaders/Shadow.tes");
 	//Shader erosionShader("../Shaders/Erosion.comp");
 	Shader terrainShader("/Shaders/Terrain.vs", "/Shaders/Terrain.fs", "", "/Shaders/Terrain.tcs", "/Shaders/Terrain.tes");
-	//Shader SkyboxShader("/Shaders/Skybox.vs", "/Shaders/Skybox.fs");
+	Shader SkyboxShader("/Shaders/Skybox.vs", "/Shaders/Skybox.fs");
 
 	//Load Terrain Textures
 	Texture meadowDiffuse("/Resources/meadowDiffuse.png", GL_REPEAT, GL_LINEAR);
@@ -79,6 +79,21 @@ int main()
 	Texture sandDiffuse("/Resources/sandDiffuse.png", GL_REPEAT, GL_LINEAR);
 	Texture sandHeight("/Resources/sandHeight.png", GL_REPEAT, GL_LINEAR);
 	Texture sandNormal("/Resources/sandNormal.png", GL_REPEAT, GL_LINEAR);
+
+	/*Texture depthMap;
+	depthMap.CreateTexture(1024, 1024, );
+
+	//Shadow map data
+	GLuint depthMapFBO, depthMap;
+	glGenFramebuffers(1, &depthMapFBO);
+	CreateDepthBuffer(depthMap, 1024, 1024);
+	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D,
+		depthMap, 0);
+	//glDrawBuffer(GL_NONE);
+	//glReadBuffer(GL_NONE);
+	//glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	*/
 
 	Terrain terr(256, 256);
 	terr.GenerateVertices();
@@ -114,7 +129,7 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		data.model = glm::mat4(1.0f);
-		data.model = glm::scale(data.model, glm::vec3(0.01));
+		data.model = glm::translate(data.model, glm::vec3(0, 15, 0));
 		UploadToUniformBuffer(ubo, sizeof(glm::mat4), data.model);
 
 		data.view = cam.GetView();
